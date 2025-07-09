@@ -1,0 +1,8 @@
+{
+    "name":"Profile",
+    "web":{
+        "rewrites":{
+            "enable":"true"
+        }
+    }
+}
