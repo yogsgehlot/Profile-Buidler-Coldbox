@@ -11,6 +11,7 @@
 		<meta name="author" content="Ortus Solutions, Corp">
 
 		<!---Base URL --->
+		
 		<base href="#event.getHTMLBaseURL()#" />
 
 		<!---
