@@ -92,7 +92,7 @@ component extends="baseHandler" {
 
         } else {
 			var currentEvent = event.getCurrentEvent();
-            var securedEvents = ["dashboard"];
+            var securedEvents = ["dashboard","profile","education","experience","project","skills"];
            
             for (var securedEvent in securedEvents) {
                 if (listFirst(currentEvent, ".") == securedEvent) {

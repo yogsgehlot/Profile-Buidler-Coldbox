@@ -4,6 +4,7 @@
             <div class="col-lg-3 col-md-4 bg-dark text-white pb-3">
                 <div class="d-flex flex-column gap-5 ">
                     <div class=" d-flex justify-content-center  align-items-center ">
+                        
                         <img src=#prc.data.profile_image#
                             class="img-fluid rounded-circle d-flex justify-center align-itmes-center d-none d-md-block mt-3"
                             alt="Profile Image" style="width: 90%; aspect-ratio: 1/1; object-fit: fill;">
@@ -28,7 +29,8 @@
                         <p class="mb-2"><i class="fa-solid fa-location-dot me-2 text-danger"></i>#prc.data.address#</p>
                     </div>
                     <div class="d-flex flex-md-column flex-wrap  gap-3 w-auto ps-3">
-                        <a class="btn btn-primary" href="#event.buildLink(" dashboard.editProfile")#">Edit Profile <i
+
+                        <a class="btn btn-primary" href="#event.buildLink(" profile.editProfile")#">Edit Profile <i
                                 class="fa-solid fa-user-pen ms-1"></i></a>
                         <button id="downoladPDF" class="btn btn-success text-white">Resume <i
                                 class="fa-solid fa-download"></i></button>
@@ -52,8 +54,10 @@
                 <cfinclude template="./experience.cfm">
 
                 <cfinclude template="./projects.cfm">
-
+                
                 <cfinclude template="./skills.cfm">
+
+
 
             </div>
 
@@ -111,16 +115,16 @@
             <cfinclude template="./skills.cfm">
 
 --->
-
         </div>
     </div>
+    
 
 
 
     <script>
 
         $(document).on("click", "##downoladPDF", function () {
-            window.location.href = "#event.buildLink('dashboard.downloadPDF')#?profile_id=#session.user.profile_id#";
+            window.location.href = "#event.buildLink('profile.downloadPDF')#?profile_id=#session.user.profile_id#";
         });
 
         $(document).on("click", "##delete", function () {
@@ -136,7 +140,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "#event.buildLink('dashboard.deleteProfile')#?profile_id=#session.user.profile_id#",
+                        url: "#event.buildLink('profile.deleteProfile')#?profile_id=#session.user.profile_id#",
                         type: 'POST',
                         contentType: false,
                         processData: false,

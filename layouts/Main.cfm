@@ -265,7 +265,7 @@
 		$(document).on("click", "##logout", function () {
 			// console.log("hii");
 			$.ajax({
-				url: "#event.buildLink('dashboard.logout')#",
+				url: "#event.buildLink('profile.logout')#",
 				type: 'POST',
 				contentType: false,
 				processData: false,

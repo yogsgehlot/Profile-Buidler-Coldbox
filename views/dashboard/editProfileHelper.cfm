@@ -85,7 +85,7 @@
                 let formData = new FormData(form);
 
                 $.ajax({
-                    url: "#event.buildLink('dashboard.updateProfile')#",
+                    url: "#event.buildLink('profile.updateProfile')#",
                     type: 'POST',
                     data: formData,
                     contentType: false,

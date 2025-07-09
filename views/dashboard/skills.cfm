@@ -174,7 +174,7 @@
                 }
 
                 $.ajax({
-                    url: "#event.buildLink('dashboard.addSkill')#",
+                    url: "#event.buildLink('skills.addSkill')#",
                     type: 'POST',
                     data: { skills: selectedSkills, profile_id: #session.user.profile_id# },
                     success: function (data) {
@@ -233,7 +233,7 @@
                 // console.log(selectedSkills);
 
                 $.ajax({
-                    url: "#event.buildLink('dashboard.updateSkill')#",
+                    url: "#event.buildLink('skills.updateSkill')#",
                     type: 'POST',
                     data: { skills: selectedSkills, profile_id: #session.user.profile_id# },
                     success: function (data) {

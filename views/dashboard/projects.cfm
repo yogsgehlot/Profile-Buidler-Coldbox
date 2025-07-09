@@ -445,7 +445,7 @@
                 const formData = new FormData(form);
 
                 $.ajax({
-                    url: "#event.buildLink('dashboard.addProject')#",
+                    url: "#event.buildLink('project.addProject')#",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -513,7 +513,7 @@
             const project_id = $(this).data('id');
 
             $.ajax({
-                url: "#event.buildLink('dashboard.getProjectDetails')#",
+                url: "#event.buildLink('project.getProjectDetails')#",
                 type: "POST",
                 data: { project_id },
                 dataType: "json",
@@ -631,7 +631,7 @@
                 const formData = new FormData(form);
 
                 $.ajax({
-                    url: "#event.buildLink('dashboard.updateProject')#",
+                    url: "#event.buildLink('project.updateProject')#",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -668,7 +668,7 @@
                 if (result.isConfirmed) {
                     const project_id = $(this).data('id');
                     $.ajax({
-                        url: "#event.buildLink('dashboard.deleteProject')#",
+                        url: "#event.buildLink('project.deleteProject')#",
                         type: 'POST',
                         data: {project_id},
                         dataType: 'json',

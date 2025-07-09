@@ -123,7 +123,7 @@
                     formData.append("profile_id", #prc.data.profile_id#);
 
                     $.ajax({
-                        url: "#event.buildLink('dashboard.changePassword')#",
+                        url: "#event.buildLink('profile.changePassword')#",
                         type: 'POST',
                         data: formData,
                         contentType: false,

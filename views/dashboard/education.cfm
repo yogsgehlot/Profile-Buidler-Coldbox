@@ -261,7 +261,7 @@
                     let formData = new FormData(form);
 
                     $.ajax({
-                        url: "#event.buildLink('dashboard.addEducation')#",
+                        url: "#event.buildLink('education.addEducation')#",
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -357,7 +357,7 @@
                     // formData.append("profile_id", #session.user.profile_id#)
 
                     $.ajax({
-                        url: "#event.buildLink('dashboard.editEducation')#",
+                        url: "#event.buildLink('education.editEducation')#",
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -406,7 +406,7 @@
                 if (result.isConfirmed) {
                     const education_id = $(this).data('id');
                     $.ajax({
-                        url: "#event.buildLink('dashboard.deleteEducation')#",
+                        url: "#event.buildLink('education.deleteEducation')#",
                         type: 'POST',
                         data: {education_id},
                         dataType: 'json',
@@ -432,7 +432,7 @@
         $(document).on("click", ".openEditModalBtn", function () {
             const education_id = $(this).data('id');
             $.ajax({
-                url: "#event.buildLink('dashboard.getEducation')#",
+                url: "#event.buildLink('education.getEducation')#",
                 type: 'POST',
                 data: {education_id},
                 dataType: 'json',

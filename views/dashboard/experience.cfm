@@ -280,7 +280,7 @@
                     }
 
                     $.ajax({
-                        url: "#event.buildLink('dashboard.addExperience')#",
+                        url: "#event.buildLink('experience.addExperience')#",
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -400,7 +400,7 @@
                     }
 
                     $.ajax({
-                        url: "#event.buildLink('dashboard.updateExperience')#",
+                        url: "#event.buildLink('experience.updateExperience')#",
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -430,7 +430,7 @@
             const experience_id = $(this).data('id');
 
             $.ajax({
-                url: "#event.buildLink('dashboard.getExperienceDetails')#",
+                url: "#event.buildLink('experience.getExperienceDetails')#",
                 type: 'POST',
                 data: { experience_id },
                 dataType: 'json',
@@ -478,7 +478,7 @@
                 if (result.isConfirmed) {
                     const experience_id = $(this).data('id');
                     $.ajax({
-                        url: "#event.buildLink('dashboard.deleteExperience')#",
+                        url: "#event.buildLink('experience.deleteExperience')#",
                         type: 'POST',
                         data: {experience_id},
                         dataType: 'json',

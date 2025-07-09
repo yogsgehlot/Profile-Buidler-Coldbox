@@ -31,7 +31,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/"{
 
 	function run(){
 
-		describe( "profile Suite", function(){
+		describe( "skills Suite", function(){
 
 			beforeEach(function( currentSpec ){
 				// Setup as a new ColdBox request for this suite, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
@@ -40,7 +40,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/"{
 
 			it( "someAction", function(){
                 // Execute event or route via GET http method. Spice up accordingly
-				var event = get( "profile.someAction" );
+				var event = get( "skills.someAction" );
 				// expectations go here.
 				expect( false ).toBeTrue();
 			});
