@@ -1,10 +1,10 @@
 <cfoutput>
-	<div class="container-fluid p-5">
+	<div class="container-fluid p-sm-5 p-3">
 		<div class="container rounded-5 border shadow-lg" style="min-height: 50vh">
-			<div class="p-5 gap-3">
+			<div class="p-sm-5 p-3  gap-3">
 				<cfif NOT structKeyExists(session, "user" )>
 					<div class="row">
-						<div class="d-flex justify-content-center d-md-none">
+						<div class="d-flex justify-content-center d-md-none ">
 							<img src="includes\images\notebook-icon-left-side-white-background.jpg" class="w-100">
 						</div>
 						<div class="col-md-8 d-flex flex-column justify-content-center ">
@@ -16,7 +16,7 @@
 								<li><i class="fa-solid fa-check text-success me-2"></i> Insightful dashboard analytics
 								</li>
 							</ul>
-							<div class="p-3">
+							<div class="p-sm-3 d-flex justify-content-start gap-sm-2 gap-1 ">
 								<a class="btn btn-primary" href="#event.buildLink('authentication.loginView')#">Login <i
 										class="fa-solid fa-right-to-bracket"></i></a>
 								<a class="btn btn-primary"

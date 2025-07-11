@@ -1,221 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume | FAANG Style</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      background-color: #fdfdfd;
+      color: #212121;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.08);
+      border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 0.2rem;
+    }
+
+    h2 {
+      font-size: 16px;
+      color: #444;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    .section h3 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      font-size: 16px;
+      color: #222;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .job, .project, .edu {
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      font-weight: bold;
+      color: #111;
+    }
+
+    .meta {
+      font-style: italic;
+      color: #666;
+      font-size: 13px;
+    }
+
+    ul {
+      padding-left: 1rem;
+      list-style-type: disc;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-badge {
+      background: #e0e0e0;
+      border-radius: 12px;
+      padding: 0.3rem 0.75rem;
+      font-size: 13px;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+
+      .container {
+        box-shadow: none;
+        border: none;
+      }
+    }
+  </style>
+</head>
 <cfoutput>
+<body>
+  <!--- #writeDump(prc)# --->
+  <div class="container">
+    <header>
+      <h1>#user.data.firstName# #user.data.lastName#</h1>
+      <!--- <h2>Software Engineer | johndoe@gmail.com | linkedin.com/in/johndoe | github.com/johndoe</h2> --->
+    </header>
 
+    <!--- <section class="section">
+      <h3>Summary</h3>
+      <p>Experienced full-stack engineer with 5+ years building scalable applications. Strong in React, Node.js, and AWS. Passionate about clean code and performance optimization.</p>
+    </section> --->
 
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body {
-                    font-family: 'Arial', sans-serif;
-                    margin: 0;
-                    padding: 20px;
-                    font-size: 11px;
-                    line-height: 1.4;
-                    color: ##333;
-                }
-                .header {
-                    text-align: center;
-                    margin-bottom: 20px;
-                    border-bottom: 2px solid ##2c3e50;
-                    padding-bottom: 15px;
-                }
-                .name {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: ##2c3e50;
-                    margin-bottom: 5px;
-                }
-                .contact {
-                    font-size: 10px;
-                    color: ##666;
-                }
-                .section {
-                    margin-bottom: 15px;
-                }
-                .section-title {
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: ##2c3e50;
-                    border-bottom: 1px solid ##bdc3c7;
-                    padding-bottom: 3px;
-                    margin-bottom: 8px;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-                .item {
-                    margin-bottom: 10px;
-                }
-                .item-header {
-                    font-weight: bold;
-                    font-size: 12px;
-                }
-                .item-subheader {
-                    font-style: italic;
-                    color: ##666;
-                    font-size: 10px;
-                }
-                .item-description {
-                    margin-top: 3px;
-                    font-size: 10px;
-                }
-                .skills-grid {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                }
-                .skill-category {
-                    margin-bottom: 8px;
-                }
-                .skill-category-title {
-                    font-weight: bold;
-                    font-size: 11px;
-                    color: ##2c3e50;
-                }
-                .skill-list {
-                    font-size: 10px;
-                    color: ##555;
-                }
-                .date-range {
-                    float: right;
-                    font-size: 10px;
-                    color: ##666;
-                    font-style: italic;
-                }
-                .technologies {
-                    font-size: 10px;
-                    color: ##666;
-                    font-style: italic;
-                    margin-top: 2px;
-                }
-            </style>
-        </head>
-        <body>";
-       
-        html &= "
-        <div class='header'>
-            <div class='name'>resumeData.user.name</div>
-            <div class='contact'>
-                resumeData.user.email | resumeData.user.phone
-            </div>
-        </div>";
-       
-        if (arrayLen(resumeData.education) > 0) {
-            html &= "<div class='section'>
-                <div class='section-title'>Education</div>";
-           
-            for (var edu in resumeData.education) {
-                var endDate = len(edu.end_date) ? dateFormat(edu.end_date, "mmm yyyy") : "Present";
-                html &= "
-                <div class='item'>
-                    <div class='item-header'>#edu.institution#
-                        <span class='date-range'>#dateFormat(edu.start_date, 'mmm yyyy')# - #endDate#</span>
-                    </div>
-                    <div class='item-subheader'>#edu.degree# in #edu.field_of_study#";
-                    if (len(edu.gpa)) {
-                        html &= " | GPA: #edu.gpa#";
-                    }
-                    html &= "</div>";
-                    if (len(edu.description)) {
-                        html &= "<div class='item-description'>#edu.description#</div>";
-                    }
-                html &= "</div>";
-            }
-            html &= "</div>";
-        }
-       
-        if (arrayLen(resumeData.skills) > 0) {
-            html &= "<div class='section'>
-                <div class='section-title'>Technical Skills</div>";
-           
-            var skillsByCategory = {};
-            for (var skill in resumeData.skills) {
-                var category = len(skill.category) ? skill.category : "General";
-                if (!structKeyExists(skillsByCategory, category)) {
-                    skillsByCategory[category] = [];
-                }
-                arrayAppend(skillsByCategory[category], skill.skill_name);
-            }
-           
-            for (var category in skillsByCategory) {
-                html &= "
-                <div class='skill-category'>
-                    <span class='skill-category-title'>category:</span>
-                    <span class='skill-list'>arrayToList(skillsByCategory[category], ', ')</span>
-                </div>";
-            }
-            html &= "</div>";
-        }
-       
-        if (arrayLen(resumeData.projects) > 0) {
-            html &= "<div class='section'>
-                <div class='section-title'>Projects</div>";
-           
-            for (var project in resumeData.projects) {
-                var dateRange = "";
-                if (len(project.start_date)) {
-                    dateRange = dateFormat(project.start_date, "mmm yyyy");
-                    if (len(project.end_date)) {
-                        dateRange &= " - " & dateFormat(project.end_date, "mmm yyyy");
-                    } else {
-                        dateRange &= " - Present";
-                    }
-                }
-               
-                html &= "
-                <div class='item'>
-                    <div class='item-header'>#project.project_name#";
-                    if (len(dateRange)) {
-                        html &= "<span class='date-range'>#dateRange#</span>";
-                    }
-                    html &= "</div>";
-                   
-                    if (len(project.technologies)) {
-                        html &= "<div class='technologies'>Technologies: #project.technologies#</div>";
-                    }
-                   
-                    html &= "<div class='item-description'>#project.description#</div>";
-                   
-                    if (len(project.project_url) || len(project.github_url)) {
-                        html &= "<div class='item-description'>";
-                        if (len(project.project_url)) {
-                            html &= "Live: #project.project_url# ";
-                        }
-                        if (len(project.github_url)) {
-                            html &= "GitHub: #project.github_url#";
-                        }
-                        html &= "</div>";
-                    }
-                html &= "</div>";
-            }
-            html &= "</div>";
-        }
-       
-        if (arrayLen(resumeData.achievements) > 0) {
-            html &= "<div class='section'>
-                <div class='section-title'>Achievements & Certifications</div>";
-           
-            for (var achievement in resumeData.achievements) {
-                html &= "
-                <div class='item'>
-                    <div class='item-header'>#achievement.title#";
-                    if (len(achievement.date_achieved)) {
-                        html &= "<span class='date-range'>#dateFormat(achievement.date_achieved, 'mmm yyyy')#</span>";
-                    }
-                    html &= "</div>";
-                   
-                    if (len(achievement.issuer)) {
-                        html &= "<div class='item-subheader'>#achievement.issuer#</div>";
-                    }
-                   
-                    html &= "<div class='item-description'>#achievement.description#</div>
-                </div>";
-            }
-            html &= "</div>";
-        }
-       
-        html &= "
-        </body>
-        </html>";
+    <section class="section">
+      <h3>Education</h3>
+      <cfloop query="education.data">
+        <div class="edu">
+          <div class="title">#education.data.degree#</div>
+          <div class="meta">#education.data.institution#, #dateFormat(education.data.start_year, 'yyyy')# -
+                                        #dateFormat(education.data.end_year, 'yyyy')#</div>
+        </div>
+      </cfloop>
+    </section>
+
+    <section class="section">
+      <h3>Experience</h3>
+      <cfloop query="experience.data">
+        <div class="job">
+          <div class="title">#experience.data.job_title#</div>
+          <div class="meta">#experience.data.company_name# | #experience.data.start_year# - #experience.data.end_year EQ "" ? "Present" : experience.data.end_year#</div>
+          <!--- <p>#prc.experience.data.description#</p> --->
+        </div>
+      </cfloop>
+      
+    </section>
+
+    <section class="section">
+      <h3>Projects</h3>
+      <cfloop query="projects.data">
+        <div class="project">
+          <div class="title">#projects.data.project_title#</div>
+          <div class="meta">#Replace("#projects.data.tech_stack#", ",", " | ", "All")#</div>
+          <p>#projects.data.description#</p>
+        </div>
+      </cfloop>
+    </section>
+
+    <section class="section">
+      <h3>Skills</h3>
+      <div class="skills">
+        <cfloop query="skills.data">
+          <div class="skill-badge">#skills.data.skill_name#</div>
+        </cfloop>
+      </div>
+    </section>
 
     
- </cfoutput>
+  </div>
+</body>
+</html>
+</cfoutput>

@@ -72,8 +72,21 @@ component extends="baseHandler" {
 			prc.projects = res.data;
 		}
 
-		event.setView("profile/publicProfile");
+		event.setView("publicPage/publicProfile");
 	}
+
+	function getPublicProfiles(event, rc ,prc){
+		res = service.getPublicProfiles();
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.allUsers = res.data;
+		}
+		// writeDump(res);
+		event.setView("publicPage/publicProfileList");
+	}
+
 	function onAppInit( event, rc, prc ){
 	}
 

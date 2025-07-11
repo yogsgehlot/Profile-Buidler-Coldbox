@@ -83,7 +83,7 @@
 
                                 <label for="dob" class="col-form-label">Date of Birth:</label>
                                 <input type="date" id="update_dob" name="dob" class="form-control"
-                                    value="#dateFormat(prc.data.dob, 'yyyy-mm-dd')#">
+                                    value="#dateFormat(prc.data.dob, 'yyyy-dd-mm')#">
                             </div>
 
 

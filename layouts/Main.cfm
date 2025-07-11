@@ -203,7 +203,12 @@
 								<li class="nav-item">
 									<a class="nav-link" href="">Home <i class="fa-solid fa-house"></i></a>
 								</li>
-								
+								<li class="nav-item">
+									<a class="nav-link " href="#event.buildLink('main.getPublicProfiles')#">
+										Profiles
+										<i class="fa-solid fa-users  "></i>
+									</a>
+								</li>
 
 								<cfif NOT structKeyExists(session, "user" )>
 									<li class="nav-item">

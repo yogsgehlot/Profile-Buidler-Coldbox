@@ -16,6 +16,7 @@ component extends="coldbox.system.EventHandler"{
 	property name="baseService" inject="BaseService";
 
 	function loginView( event, rc, prc ){
+        // writeDump(cgi);abort;
 		event.setView("authentication/login")
 	}
 

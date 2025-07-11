@@ -13,6 +13,10 @@ component extends="baseHandler"{
 	this.allowedMethods = {};
 
 	property name="service" inject="UserService";
+	property name="eduService" inject="EducationService";
+	property name="skillService" inject="SkillService";
+	property name="experienceService" inject="ExperienceService";
+	property name="projectsService" inject="ProjectsService";
 	property name="baseService" inject="BaseService";
 
 	function logout( event, rc, prc ){
@@ -109,118 +113,200 @@ component extends="baseHandler"{
 
 	function downloadPDF(event,rc,prc){
 		// writeDump(rc);abort; 
-		res = service.getProfile(rc.profile_id);
-		if(res.status eq "error"){
-			return res;
-		}
+		user = service.getProfile(rc.profile_id);
+		
+		education= eduService.getEducations(rc.profile_id);
+		
+		experience= experienceService.getExperiences(rc.profile_id);
+		
+		skills= skillService.getSkills(rc.profile_id);
+
+		projects = projectsService.getProjects(rc.profile_id);
+
+		
 		event.noRender();
 	
-		pdfContent = "
-			<html>
+		pdfContent = '
+			<!DOCTYPE html>
+			<html lang="en">
 			<head>
-				<meta charset='utf-8'>
-				<style>
-					body {
-						font-family: Arial, sans-serif;
-						background-color: ##f8f9fa;
-						padding: 30px;
-					}
-					.card {
-						background: ##ffffff;
-						border: 2px solid ##0d6efd;
-						border-radius: 20px;
-						padding: 30px;
-						max-width: 700px;
-						margin: auto;
-						box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-					}
-					.header {
-						display: flex;
-						align-items: center;
-						margin-bottom: 20px;
-					}
-					.header img {
-						border-radius: 50%;
-						border: 3px solid ##0d6efd;
-						width: 100px;
-						height: 100px;
-						margin-right: 20px;
-						object-fit: fill;
-					}
-					.header h2 {
-						margin: 0;
-						color: ##0d6efd;
-					}
-					.header p {
-						margin: 5px 0;
-						color: ##6c757d;
-					}
-					.badge {
-						background-color: ##198754;
-						color: ##fff;
-						padding: 5px 10px;
-						border-radius: 5px;
-						font-size: 0.9rem;
-					}
-					.info {
-						margin-top: 20px;
-						color: ##212529;
-					}
-					.info div {
-						margin-bottom: 10px;
-					}
-					.info strong {
-						color: ##000;
-					}
-					.stats {
-						background: ##f1f3f5;
-						padding: 15px;
-						border-radius: 10px;
-						margin-top: 30px;
-					}
-					.stats h4 {
-						color: ##0d6efd;
-						margin-bottom: 15px;
-					}
-					.stats div {
-						display: flex;
-						justify-content: space-between;
-						margin-bottom: 10px;
-						color: ##495057;
-					}
-					.footer {
-						margin-top: 30px;
-						text-align: right;
-						color: ##adb5bd;
-						font-size: 0.85rem;
-					}
-				</style>
+			<meta charset="UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Resume | FAANG Style</title>
+			<style>
+				* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				}
+
+				body {
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+				font-size: 14px;
+				line-height: 1.6;
+				background-color: ##fdfdfd;
+				color: ##212121;
+				padding: 2rem;
+				}
+
+				.container {
+				max-width: 800px;
+				margin: 0 auto;
+				background: ##fff;
+				padding: 2rem;
+				box-shadow: 0 0 20px rgba(0,0,0,0.08);
+				border-radius: 8px;
+				}
+
+				h1 {
+				font-size: 28px;
+				margin-bottom: 0.2rem;
+				}
+
+				h2 {
+				font-size: 16px;
+				color: ##444;
+				}
+
+				.section {
+				margin-top: 2rem;
+				}
+
+				.section h3 {
+				border-bottom: 1px solid ##ccc;
+				padding-bottom: 0.3rem;
+				margin-bottom: 1rem;
+				font-size: 16px;
+				color: ##222;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				}
+
+				.job, .project, .edu {
+				margin-bottom: 1rem;
+				}
+
+				.title {
+				font-weight: bold;
+				color: ##111;
+				}
+
+				.meta {
+				font-style: italic;
+				color: ##666;
+				font-size: 13px;
+				}
+
+				ul {
+				padding-left: 1rem;
+				list-style-type: disc;
+				}
+
+				.skills {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				}
+
+				.skill-badge {
+				background: ##e0e0e0;
+				border-radius: 12px;
+				padding: 0.3rem 0.75rem !important;
+				font-size: 13px;
+				}
+
+				@media print {
+				body {
+					padding: 0;
+				}
+
+				.container {
+					box-shadow: none;
+					border: none;
+				}
+				}
+			</style>
 			</head>
 			<body>
-				<div class='card'>
-					<div class='header'>
-						<img src='#res.data.profile_image#'>
-						<div>
-							<h2>#res.data.firstName# #res.data.lastName#</h2>
-							<span class='badge'>Active</span>
-						</div>
-					</div>
+			<div class="container">
+				<header>
+				<h1>#user.data.firstName# #user.data.lastName#</h1>
+				<!--- <h2>Software Engineer | johndoe@gmail.com | linkedin.com/in/johndoe | github.com/johndoe</h2> --->
+				</header>
 
-					<hr>
+				<!--- <section class="section">
+				<h3>Summary</h3>
+				<p>Experienced full-stack engineer with 5+ years building scalable applications. Strong in React, Node.js, and AWS. Passionate about clean code and performance optimization.</p>
+				</section> --->
 
-					<div class='info'>
-						<div><strong> Email:</strong> #res.data.email#</div>
-						<div><strong> Phone:</strong> #res.data.phoneNumber#</div>
-						<div><strong> DOB:</strong> #res.data.dob#</div>
-						<div><strong> Address:</strong> #res.data.address#</div>
+				<section class="section">
+				<h3>Education</h3>
+		';
+		
+		for(row in education.data){
 
-					<div class='footer'>
-						Generated on #dateFormat(now(), 'dd-mmm-yyyy')#
-					</div>
+			pdfContent &='
+				<div class="edu">
+					<div class="title">#row.degree#</div>
+					<div class="meta">#row.institution#, #dateFormat(row.start_year, "yyyy")# -
+						#dateFormat(row.end_year, "yyyy")#</div>
 				</div>
-			</body>
+			';
+		}
+
+		pdfContent &='
+			</section>
+
+			<section class="section">
+			<h3>Experience</h3>
+		';
+		
+		for(row in experience.data){
+			pdfContent &='
+				<div class="job">
+					<div class="title">#row.job_title#</div>
+					<div class="meta">#row.company_name# | #row.start_year# - #row.end_year EQ "" ? "Present" : row.end_year#</div>
+					<!--- <p>#row.description#</p> --->
+				</div>
+			';
+		}
+			
+		pdfContent &='
+			</section>
+
+				<section class="section">
+				<h3>Projects</h3>
+			
+		';
+		
+		for(row in projects.data){
+			pdfContent &='
+				<div class="project">
+					<div class="title">#row.project_title#</div>
+					<div class="meta">#Replace("#row.tech_stack#", ",", " | ", "All")#</div>
+					<p>#row.description#</p>
+				</div>
+			';
+		}
+		pdfContent &='
+			</section>
+			<section class="section">
+				<h3>Skills</h3>
+				<div class="skills">
+		';
+
+		for(row in skills.data){
+			pdfContent &='<span class="skill-badge" >#row.skill_name#</span>';
+		}
+
+		pdfContent &='
+							</div>
+						</section>
+					</div>
+				</body>
 			</html>
-		"
+		';
+
 		cfcontent( type="application/pdf" );
 		cfheader( name="Content-Disposition", value="attachment;filename=profile.pdf" );
 		cfdocument (format="pdf"){
@@ -293,3 +379,4 @@ component extends="baseHandler"{
 
 }
 
+			

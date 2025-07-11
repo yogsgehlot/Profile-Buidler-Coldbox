@@ -1,6 +1,10 @@
 <cfoutput>
     <script>
          $(document).ready(function () {
+            
+            // console.log(fullURL.substringAfter("#cgi.http_host#/"));
+            // relative = fullURL.substringAfter("127.0.0.1:61980/")
+            
             $("##login_form").validate({
                 rules: {
                     email: {
@@ -39,7 +43,12 @@
                 },
 
                 submitHandler: function (form) {
+                    
                     let formData = new FormData(form);
+                    var fullUrl = "#cgi.HTTP_REFERER#"
+                    var relativePath = fullUrl.replace(`http://#cgi.http_host#/`, '')
+                    // console.log("relative path is : ", relativePath );
+
                     
                     $.ajax({
                         url: "#event.buildLink('authentication.login')#",
@@ -51,7 +60,15 @@
                         success: function (data) {
                             if (data.STATUS == "success") {
                                 Swal.fire("Login Successful", "", "success").then(() => {
-                                    window.location.href = "#event.buildLink('main.index')#";
+                                    if (!relativePath.includes("profile_id")) {
+                                        window.location.href = "#event.buildLink('main.index')#";
+                                        
+                                    } else {
+                                        var profile_id_index = relativePath.indexOf("=") + 1;
+                                        profile_id = relativePath.substring(profile_id_index);
+                                        
+                                        window.location.href = `#event.buildLink("main.profileView")#?profile_id=${profile_id}`;
+                                    }
                                 });
                             } else {
 

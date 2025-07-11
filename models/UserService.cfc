@@ -378,4 +378,33 @@ component singleton {
 		}
 	}
 
+	function getPublicProfiles(){
+		try {
+			query_data = queryExecute("
+			SELECT profile_id, profile_image, CONCAT(firstName, ' ', lastName) AS full_name, address
+			FROM profiles ");
+
+			// writeDump(query_data); abort;
+			
+			if(query_data.recordCount eq 0){
+				return {
+					status: "error",
+					message: "user not found"
+				}
+			}
+		
+			return {status: "succes", data: query_data}
+		
+			
+		} catch (any error) {
+			return {
+				status: "error",
+				message: "SERVER error #error#"
+			}
+			
+		}
+	}
+
+	
+
 }

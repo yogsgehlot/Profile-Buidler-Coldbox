@@ -1,8 +1,8 @@
 <cfoutput>
-    <div class="container-fluid p-5">
+    <div class="container-fluid p-sm-5 p-3">
 
         <div class="container rounded-5 border shadow-lg " style="min-height: 50vh">
-            <div class="p-5 gap-3 ">
+            <div class="p-sm-5 p-3 gap-3 ">
                 <div class="row">
                     <div class=" col-md-4  d-flex justify-content-end">
                         <img src="includes\images\3094352.jpg" class="w-100">
