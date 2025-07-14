@@ -20,7 +20,19 @@
                     <div class="d-flex flex-column justify-content-center align-items-start ps-3">
 
                         <h5 class="fs-2 fw-bold d-none d-md-block ">#prc.data.firstName & " " & prc.data.lastName# </h5>
-                        <p class="mb-2 "><i class="fa-solid fa-envelope me-2 text-primary"></i>#prc.data.email#</p>
+                        
+                        <div class="d-flex align-items-center gap-3 my-3">
+                            <i class="fa-solid fa-user-group me-1 text-info"></i>
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'#" data-bs-toggle="modal" data-bs-target="##followersListModal" >                        
+                                    <strong class="text-white" id="followerNumber">#prc.followersCount#</strong>&nbsp;<small class="text-muted">Followers</small>
+                            </button>
+
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'# " id="getFollowingList" data-bs-toggle="modal" data-bs-target="##followingListModal">
+                                    <strong class="text-white" id="followingNumber">#prc.FollowingCount#</strong>&nbsp;<small class="text-muted">Following</small>
+                            </button>
+                        </div>
+                        
+                        <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i>#prc.data.email#</p>
                         <p class="mb-2"><i class="fa-solid fa-phone me-2 text-success"></i>#prc.data.phoneNumber#
                         </p>
                         <cfif trim(prc.data.dob).length()>
@@ -57,7 +69,7 @@
                 
                 <cfinclude template="./skills.cfm">
 
-
+                <cfinclude template="./followingAndFollowersList.cfm">
 
             </div>
 

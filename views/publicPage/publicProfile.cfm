@@ -47,12 +47,25 @@
 
                         <h5 class="fs-2 fw-bold d-none d-md-block ">#prc.data.firstName & " " & prc.data.lastName# </h5>
                         
+
+                        <div class="d-flex align-items-center gap-3 my-3">
+                            <i class="fa-solid fa-user-group me-1 text-info"></i>
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'#" data-bs-toggle="modal" data-bs-target="##followersListModal" >                        
+                                    <strong class="text-white" id="followerNumber">#prc.followersCount#</strong>&nbsp;<small class="text-muted">Followers</small>
+                            </button>
+
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'# " id="getFollowingList" data-bs-toggle="modal" data-bs-target="##followingListModal">
+                                    <strong class="text-white" id="followingNumber">#prc.FollowingCount#</strong>&nbsp;<small class="text-muted">Following</small>
+                            </button>
+                        </div>
+
+
                         <p class="mb-2"><i class="fa-solid fa-location-dot me-2 text-danger"></i>#prc.data.address#</p>
                     </div>
 
                     <cfif NOT structKeyExists(session, "user" )>
 
-                        <div class=" rounded shadow-sm p-3">
+                        <div class=" rounded shadow-sm p-3 border-top">
                             <h6 class="fw-bold mb-2">
                                 <i class="fa-solid fa-rocket me-1 text-primary"></i> Ready to Connect?
                             </h6>
@@ -64,18 +77,18 @@
                         </div>
                     <cfelse>
 
-                         <div class="rounded shadow-lg p-3" >
+                         <div class="rounded shadow-lg p-3 border-top" >
                             <h6 class="fw-bold mb-2">
                                 <i class="fa-solid fa-handshake me-1 text-primary"></i> Connect with #prc.data.firstName#
                             </h6>
                             <p class="text-muted small mb-3">
-                                Start building your professional network by sending a connection request or message.
+                                Start building your professional network by Following and messaging.
                             </p>
 
                             <div class="d-grid gap-2">
-                                <button class="btn btn-outline-primary btn-sm w-100" id="connectBtn"
+                                <button class="btn btn-outline-primary btn-sm w-100" id="followBtn"
                                     data-id="#prc.data.profile_id#">
-                                    <i class="fa-solid fa-user-plus me-1"></i> Send Connection Request
+                                    <i class="fa-solid fa-user-plus me-1"></i> Send Follow Request
                                 </button>
 
                                 <button class="btn btn-outline-secondary btn-sm w-100" id="messageBtn"
@@ -85,11 +98,8 @@
                             </div>
                         </div>
                     </cfif>
-
-
-
                     <!-- Platform Features -->
-                    <div class="bg-dark text-white border-top p-3 mt-2">
+                    <div class="bg-dark text-white rounded shadow-lg p-3 border-top">
                         <h6 class="text-uppercase text-muted small mb-2">Platform Features</h6>
                         <ul class="list-unstyled small">
                             <li class="mb-2"><i class="fa-solid fa-user-check me-2 text-warning"></i>Verified Profiles
@@ -101,111 +111,10 @@
                                 Insights</li>
                         </ul>
                     </div>
-
-                   
-
-
-
                 </div>
-
-
             </div>
 
             <div class="col-lg-9 col-md-8 container d-flex flex-column gy-2 gap-2 pb-3">
-
-                <div class="card shadow-lg rounded-4 ">
-                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="fa-solid fa-graduation-cap me-2"></i>Education</h5>
-                    </div>
-
-                    <cfif prc.edu.recordCount EQ 0>
-                        <div class="card-body text-center text-muted py-4">
-                            <i class="fa-solid fa-user-graduate fa-2x mb-2"></i><br>No education added yet.
-                        </div>
-                    </cfif>
-
-                    <cfloop index="i" from="1" to="#prc.edu.recordCount#">
-                        <cfset collapseID="edu" & i>
-                            <div class="card-body">
-                                <div class=" border rounded-3 p-3 shadow-sm education-item position-relative"
-                                    style="transition: 0.3s;">
-
-                                    <div class="d-flex justify-content-between align-items-center"
-                                        data-bs-toggle="collapse" href="###collapseID#" role="button"
-                                        aria-expanded="false" aria-controls="#collapseID#">
-                                        <div>
-                                            <h6 class="mb-0">
-                                                <i class="fa-solid fa-user-graduate me-2"></i>#prc.edu.degree[i]#
-                                            </h6>
-                                            <small class="text-muted">
-                                                #prc.edu.institution[i]# (#dateFormat(prc.edu.start_year[i], 'yyyy')# -
-                                                #dateFormat(prc.edu.end_year[i], 'yyyy')#)
-                                            </small>
-                                        </div>
-                                        <div class="d-flex gap-2  justify-content-center align-items-center">
-
-                                            <i class="fa-solid fa-chevron-down text-secondary"></i>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="collapse mt-3" id="#collapseID#">
-                                        <p><strong>Grade:</strong> #prc.edu.grade[i]#</p>
-                                        <p><strong>Description:</strong> #prc.edu.description[i]#</p>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                    </cfloop>
-                </div>
-
-                <div class="card shadow-lg rounded-4 ">
-                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="fa-solid fa-briefcase me-2"></i>Experience</h5>
-
-                    </div>
-                    <cfif prc.experience.recordCount EQ 0>
-                        <div class="card-body text-center text-muted py-4">
-                            <i class="fa-solid fa-briefcase fa-2x mb-2"></i><br>No experience added yet.
-                        </div>
-                    </cfif>
-
-                    <cfloop index="i" from="1" to="#prc.experience.recordCount#">
-                        <cfset collapseID="exp" & i>
-                            <div class="card-body">
-                                <div class=" border rounded-3 p-3 shadow-sm experience-item position-relative"
-                                    style="transition: 0.3s;">
-
-                                    <div class="d-flex justify-content-between align-items-center"
-                                        data-bs-toggle="collapse" href="###collapseID#" role="button"
-                                        aria-expanded="false" aria-controls="#collapseID#">
-                                        <div>
-                                            <h6 class="mb-0">
-                                                <i class="fa-solid fa-briefcase me-2"></i>#prc.experience.job_title[i]#
-                                            </h6>
-                                            <small class="text-muted">
-                                                #prc.experience.company_name[i]# (#prc.experience.start_year[i]# -
-                                                #prc.experience.end_year[i] EQ "" ? "Present" :
-                                                prc.experience.end_year[i]#)
-                                            </small>
-                                        </div>
-                                        <div class="d-flex gap-2  justify-content-center align-items-center">
-
-                                            <i class="fa-solid fa-chevron-down text-secondary"></i>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="collapse mt-3" id="#collapseID#">
-                                        <p><strong>Description:</strong> #prc.experience.description[i]#</p>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                    </cfloop>
-                </div>
 
                 <cfif NOT structKeyExists(session, "user" )>
 
@@ -224,114 +133,254 @@
                         </div>
                     </div>
 
-                <cfelse>
-                    <div class="card shadow-lg rounded-4 ">
-                        <div
-                            class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">
-                                <i class="fa-solid fa-diagram-project me-2"></i>Projects
-                            </h5>
-                        </div>
-
-                        <cfif prc.projects.recordCount EQ 0>
-                            <div class="card-body text-center text-muted py-4">
-                                <i class="fa-solid fa-folder-open fa-2x mb-2"></i><br>No projects added yet.
+                    <div class="card border-0 shadow-sm rounded-4 mt-4 text-white" style="background: linear-gradient(135deg, ##212529, ##4e4e4e);">
+                        <div class="card-body text-center p-4">
+                            <h5 class="fw-bold mb-3"><i class="fa-solid fa-people-group me-2"></i>Join Our Vibrant Community</h5>
+                            <p class="text-light small">Thousands of learners, developers, and creators are sharing knowledge and building connections here daily. Be part of something impactful.</p>
+                            <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
+                                <span class="badge bg-white text-dark px-3 py-2">Collaboration</span>
+                                <span class="badge bg-white text-dark px-3 py-2">Growth</span>
+                                <span class="badge bg-white text-dark px-3 py-2">Mentorship</span>
+                                <span class="badge bg-white text-dark px-3 py-2">Innovation</span>
                             </div>
-                        </cfif>
+                        </div>
+                    </div>
 
-                        <cfloop index="i" from="1" to="#prc.projects.recordCount#">
-                            <cfset collapseID="project" & i>
-                                <div class="card-body ">
-                                    <div class="border rounded-3 p-3 shadow-sm bg-light" style="transition: 0.3s;">
-                                        <div class="d-flex justify-content-between align-items-center"
-                                            data-bs-toggle="collapse" href="###collapseID#" role="button"
-                                            aria-expanded="false" aria-controls="#collapseID#">
+                    
 
-                                            <div>
-                                                <h6 class="mb-1 ">
-                                                    <i
-                                                        class="fa-solid fa-code-branch me-2"></i>#prc.projects.project_title[i]#
-                                                </h6>
-                                                <small class="text-muted d-block">
-                                                    #prc.projects.client_name[i]#
-                                                    (#prc.projects.start_year[i]# -
-                                                    <cfif len(trim(prc.projects.end_year[i])) EQ 0>Present<cfelse>
-                                                            #prc.projects.end_year[i]#</cfif>)
-                                                </small>
-                                            </div>
 
-                                            <div class="d-flex gap-2 justify-content-center align-items-center">
-                                                <i class="fa-solid fa-chevron-down text-secondary"></i>
-                                            </div>
-                                        </div>
 
-                                        <div class="collapse mt-3" id="#collapseID#">
+                    <cfelse>
+                        <div class="card shadow-lg rounded-4 ">
+                            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fa-solid fa-graduation-cap me-2"></i>Education</h5>
+                            </div>
 
-                                            <div class="d-flex flex-wrap gap-2 mt-2">
-                                                <a href="#prc.projects.live_link[i]#" target="_blank"
-                                                    class="btn btn-outline-success btn-sm rounded-pill px-3">
-                                                    <i class="fa-solid fa-globe me-1"></i> Live Site
-                                                </a>
-
-                                                <a href="#prc.projects.github_link[i]#" target="_blank"
-                                                    class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                                                    <i class="fa-brands fa-github me-1"></i> GitHub
-                                                </a>
-                                            </div>
-                                            <cfif len(trim(prc.projects.tech_stack[i]))>
-                                                <p class="mt-4">
-                                                    <strong><i class="fa-solid fa-tags me-2"></i>Tech
-                                                        Stack:</strong><br>
-                                                    <cfloop list="#prc.projects.tech_stack[i]#" index="tech">
-                                                        <span class="badge bg-secondary me-1">#tech#</span>
-                                                    </cfloop>
-                                                </p>
-                                            </cfif>
-
-                                            <p class="mt-4">
-                                                <strong><i
-                                                        class="fa-solid fa-circle-info me-2"></i>Description:</strong><br>
-                                                #prc.projects.description[i]#
-
-                                            </p>
-                                        </div>
-                                    </div>
+                            <cfif prc.edu.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-user-graduate fa-2x mb-2"></i><br>No education added yet.
                                 </div>
-                        </cfloop>
+                            </cfif>
 
-                    </div>
+                            <cfloop index="i" from="1" to="#prc.edu.recordCount#">
+                                <cfset collapseID="edu" & i>
+                                    <div class="card-body">
+                                        <div class=" border rounded-3 p-3 shadow-sm education-item position-relative"
+                                            style="transition: 0.3s;">
 
-                    <div class="card shadow-lg rounded-4">
-                        <div
-                            class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Skills & Expertise
-                            </h5>
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                data-bs-toggle="collapse" href="###collapseID#" role="button"
+                                                aria-expanded="false" aria-controls="#collapseID#">
+                                                <div>
+                                                    <h6 class="mb-0">
+                                                        <i class="fa-solid fa-user-graduate me-2"></i>#prc.edu.degree[i]#
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        #prc.edu.institution[i]# (#dateFormat(prc.edu.start_year[i], 'yyyy')# -
+                                                        #dateFormat(prc.edu.end_year[i], 'yyyy')#)
+                                                    </small>
+                                                </div>
+                                                <div class="d-flex gap-2  justify-content-center align-items-center">
 
-                        </div>
-                        <cfif prc.userSkills.recordCount EQ 0>
-                            <div class="card-body text-center text-muted py-4">
-                                <i class="fa-solid fa-lightbulb fa-2x mb-2"></i><br>No skills added yet.
-                            </div>
-                        </cfif>
+                                                    <i class="fa-solid fa-chevron-down text-secondary"></i>
 
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap gap-2">
-                                <cfloop index="i" from="1" to="#prc.userSkills.recordCount#">
-                                    <div class="skill-tag" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="Expert in responsive layouts and flexbox/grid.">
-                                        #prc.userSkills.skill_name[i]#
+                                                </div>
+                                            </div>
+
+                                            <div class="collapse mt-3" id="#collapseID#">
+                                                <p><strong>Grade:</strong> #prc.edu.grade[i]#</p>
+                                                <p><strong>Description:</strong> #prc.edu.description[i]#</p>
+                                            </div>
+
+
+                                        </div>
                                     </div>
-                                </cfloop>
-                            </div>
+                            </cfloop>
                         </div>
 
-                    </div>
+                        <div class="card shadow-lg rounded-4 ">
+                            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fa-solid fa-briefcase me-2"></i>Experience</h5>
+
+                            </div>
+                            <cfif prc.experience.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-briefcase fa-2x mb-2"></i><br>No experience added yet.
+                                </div>
+                            </cfif>
+
+                            <cfloop index="i" from="1" to="#prc.experience.recordCount#">
+                                <cfset collapseID="exp" & i>
+                                    <div class="card-body">
+                                        <div class=" border rounded-3 p-3 shadow-sm experience-item position-relative"
+                                            style="transition: 0.3s;">
+
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                data-bs-toggle="collapse" href="###collapseID#" role="button"
+                                                aria-expanded="false" aria-controls="#collapseID#">
+                                                <div>
+                                                    <h6 class="mb-0">
+                                                        <i class="fa-solid fa-briefcase me-2"></i>#prc.experience.job_title[i]#
+                                                    </h6>
+                                                    <small class="text-muted">
+                                                        #prc.experience.company_name[i]# (#prc.experience.start_year[i]# -
+                                                        #prc.experience.end_year[i] EQ "" ? "Present" :
+                                                        prc.experience.end_year[i]#)
+                                                    </small>
+                                                </div>
+                                                <div class="d-flex gap-2  justify-content-center align-items-center">
+
+                                                    <i class="fa-solid fa-chevron-down text-secondary"></i>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="collapse mt-3" id="#collapseID#">
+                                                <p><strong>Description:</strong> #prc.experience.description[i]#</p>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                            </cfloop>
+                        </div>
+                    
+                        <div class="card shadow-lg rounded-4 ">
+                            <div
+                                class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fa-solid fa-diagram-project me-2"></i>Projects
+                                </h5>
+                            </div>
+
+                            <cfif prc.projects.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-folder-open fa-2x mb-2"></i><br>No projects added yet.
+                                </div>
+                            </cfif>
+
+                            <cfloop index="i" from="1" to="#prc.projects.recordCount#">
+                                <cfset collapseID="project" & i>
+                                    <div class="card-body ">
+                                        <div class="border rounded-3 p-3 shadow-sm bg-light" style="transition: 0.3s;">
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                data-bs-toggle="collapse" href="###collapseID#" role="button"
+                                                aria-expanded="false" aria-controls="#collapseID#">
+
+                                                <div>
+                                                    <h6 class="mb-1 ">
+                                                        <i
+                                                            class="fa-solid fa-code-branch me-2"></i>#prc.projects.project_title[i]#
+                                                    </h6>
+                                                    <small class="text-muted d-block">
+                                                        #prc.projects.client_name[i]#
+                                                        (#prc.projects.start_year[i]# -
+                                                        <cfif len(trim(prc.projects.end_year[i])) EQ 0>Present<cfelse>
+                                                                #prc.projects.end_year[i]#</cfif>)
+                                                    </small>
+                                                </div>
+
+                                                <div class="d-flex gap-2 justify-content-center align-items-center">
+                                                    <i class="fa-solid fa-chevron-down text-secondary"></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="collapse mt-3" id="#collapseID#">
+
+                                                <div class="d-flex flex-wrap gap-2 mt-2">
+                                                    <a href="#prc.projects.live_link[i]#" target="_blank"
+                                                        class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                                        <i class="fa-solid fa-globe me-1"></i> Live Site
+                                                    </a>
+
+                                                    <a href="#prc.projects.github_link[i]#" target="_blank"
+                                                        class="btn btn-outline-dark btn-sm rounded-pill px-3">
+                                                        <i class="fa-brands fa-github me-1"></i> GitHub
+                                                    </a>
+                                                </div>
+                                                <cfif len(trim(prc.projects.tech_stack[i]))>
+                                                    <p class="mt-4">
+                                                        <strong><i class="fa-solid fa-tags me-2"></i>Tech
+                                                            Stack:</strong><br>
+                                                        <cfloop list="#prc.projects.tech_stack[i]#" index="tech">
+                                                            <span class="badge bg-secondary me-1">#tech#</span>
+                                                        </cfloop>
+                                                    </p>
+                                                </cfif>
+
+                                                <p class="mt-4">
+                                                    <strong><i
+                                                            class="fa-solid fa-circle-info me-2"></i>Description:</strong><br>
+                                                    #prc.projects.description[i]#
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </cfloop>
+
+                        </div>
+
+                        <div class="card shadow-lg rounded-4">
+                            <div
+                                class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Skills & Expertise
+                                </h5>
+
+                            </div>
+                            <cfif prc.userSkills.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-lightbulb fa-2x mb-2"></i><br>No skills added yet.
+                                </div>
+                            </cfif>
+
+                            <div class="card-body">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <cfloop index="i" from="1" to="#prc.userSkills.recordCount#">
+                                        <div class="skill-tag" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            title="Expert in responsive layouts and flexbox/grid.">
+                                            #prc.userSkills.skill_name[i]#
+                                        </div>
+                                    </cfloop>
+                                </div>
+                            </div>
+
+                        </div>
 
                 </cfif>
 
-
+                <cfinclude template="./followingAndFollowersList.cfm">
             </div>
         </div>
     </div>
+
+
+    <script>
+        $(document).on("click", "##followBtn", function () {
+       
+            follower_id = #session.user?.profile_id#;
+            following_id = #prc.data?.profile_id#;
+            // console.log(following_id,follower_id);
+            
+            $.ajax({
+                url: "#event.buildLink('profile.follow')#",
+                type: 'POST',
+                data: { following_id, follower_id},
+                dataType: 'json',
+                success: function (res) {
+                    // console.log(res);
+                    
+                    if (res.STATUS == "success") {
+                        $("##followerNumber").text(res.DATA.FOLLOWERSCOUNT);
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Something went wrong", "error");
+                }
+            });
+        });
+    </script>
+
+
 
 </cfoutput>

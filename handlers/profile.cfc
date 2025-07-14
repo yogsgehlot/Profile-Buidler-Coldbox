@@ -288,6 +288,7 @@ component extends="baseHandler"{
 				</div>
 			';
 		}
+
 		pdfContent &='
 			</section>
 			<section class="section">
@@ -376,6 +377,41 @@ component extends="baseHandler"{
 			message: "Password sent to mail"
 		}
     }
+
+	function follow(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.follow(rc);
+
+		return res;
+	}
+
+	function getFollowingCount(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.getFollowingCount(rc.follower_id);
+
+		return res;
+	}
+
+	function getFollowersCount(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.getFollowersCount(rc.following_id);
+
+		return res;
+	}
+	
+	function getFollowingList(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.getFollowingList(rc.profile_id);
+
+		return res;
+	}
+	
+	function getFollowersList(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.getFollowersList(rc.profile_id);
+
+		return res;
+	}
 
 }
 

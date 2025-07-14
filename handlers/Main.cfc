@@ -72,6 +72,22 @@ component extends="baseHandler" {
 			prc.projects = res.data;
 		}
 
+		res = service.getFollowingCount(rc.profile_id);
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.FollowingCount = res.followingCount;
+		}
+
+		res = service.getFollowersCount(rc.profile_id);
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.FollowersCount = res.followersCount;
+		}
+
 		event.setView("publicPage/publicProfile");
 	}
 

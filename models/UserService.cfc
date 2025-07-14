@@ -405,6 +405,167 @@ component singleton {
 		}
 	}
 
+	function follow(rc){
+		transaction { 
+			try {
+
+				alreadyFollowed = queryExecute('SELECT id FROM followers WHERE follower_id = :follower_id and following_id= :following_id ',
+					{
+						follower_id = { value="#rc.follower_id#", cfsqltype="cf_sql_integer" },
+						following_id = { value="#rc.following_id#", cfsqltype="cf_sql_integer" }
+					})
+					if (alreadyFollowed.recordCount neq 0) {
+						return {
+							status: "error", 
+							message: "Already Followed",
+						}
+					}
+
+				query_data = queryExecute('insert into followers (follower_id, following_id) values(:follower_id, :following_id)',
+				{
+					follower_id = { value="#rc.follower_id#", cfsqltype="cf_sql_integer" },
+					following_id = { value="#rc.following_id#", cfsqltype="cf_sql_integer" }
+				});
+
+				followersCount = getFollowersCount("#rc.following_id#");
+				// writeDump(followersCount);abort;
+				transaction action="commit";
+				return {
+					status: "success", 
+					message: "Followed Successfully",
+					data: followersCount
+				}
+
+			} catch (any error) {
+				// writeDump(error);abort;
+				transaction action="rollback"; 
+				return {
+					status: "error", 
+					message: "Server Error",
+					error: error
+				}
+			}
+		}
+	}
+
+	function getFollowersCount(following_id){
+		try {
+			query_data = queryExecute('select count(follower_id) as followersCount from followers where following_id= :following_id',
+			{
+				following_id = { value=following_id, cfsqltype="cf_sql_integer" }
+			});
+
+			return {
+				status: "success",
+				followersCount: query_data.followersCount
+			}
+		} catch (any error) {
+			// writeDump(error);abort;
+            return {
+                status: "error", 
+                message: "Server Error",
+                error: error
+            }
+		}
+	}
+
+	function getFollowingCount(follower_id){
+		try {
+			query_data = queryExecute('select count(following_id) as followingCount from followers where follower_id= :follower_id',
+			{
+				follower_id = { value=follower_id, cfsqltype="cf_sql_integer" }
+			});
+
+			return {
+				status: "success",
+				followingCount: query_data.followingCount
+			}
+		} catch (any error) {
+			// writeDump(error);abort;
+            return {
+                status: "error", 
+                message: "Server Error",
+                error: error
+            }
+		}
+	}
+
+
+	function getFollowingList(profile_id){
+		try {
+			
+			query_data = queryExecute(
+			"SELECT 
+				followers.following_id, 
+				CONCAT(profiles.firstName, ' ', profiles.lastName) AS full_name, 
+				profiles.address, 
+				profiles.profile_image
+			FROM 
+				followers 
+			INNER JOIN 
+				profiles 
+			ON 
+				profiles.profile_id = followers.following_id 
+			WHERE 
+				followers.follower_id = :profile_id",
+			{
+				profile_id = { value = profile_id, cfsqltype = "cf_sql_integer" }
+			}
+		);
+
+			// writeDump(query_data);abort;
+			return {
+				status: "success",
+				followingList: query_data
+			}
+		} catch (any error) {
+			// writeDump(error);abort;
+            return {
+                status: "error", 
+                message: "Server Error",
+                error: error
+            }
+		}
+	}
+
+	function getFollowersList(profile_id){
+		try {
+			
+			query_data = queryExecute(
+			"SELECT 
+				followers.follower_id, 
+				CONCAT(profiles.firstName, ' ', profiles.lastName) AS full_name, 
+				profiles.address, 
+				profiles.profile_image
+			FROM 
+				followers 
+			INNER JOIN 
+				profiles 
+			ON 
+				profiles.profile_id = followers.follower_id 
+			WHERE 
+				followers.following_id = :profile_id",
+			{
+				profile_id = { value = profile_id, cfsqltype = "cf_sql_integer" }
+			}
+		);
+
+			// writeDump(query_data);abort;
+			return {
+				status: "success",
+				followersList: query_data
+			}
+		} catch (any error) {
+			// writeDump(error);abort;
+            return {
+                status: "error", 
+                message: "Server Error",
+                error: error
+            }
+		}
+	}
+
+
 	
 
 }

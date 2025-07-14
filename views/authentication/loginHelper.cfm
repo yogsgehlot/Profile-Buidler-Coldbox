@@ -47,7 +47,7 @@
                     let formData = new FormData(form);
                     var fullUrl = "#cgi.HTTP_REFERER#"
                     var relativePath = fullUrl.replace(`http://#cgi.http_host#/`, '')
-                    // console.log("relative path is : ", relativePath );
+                    console.log("relative path is : ", relativePath );
 
                     
                     $.ajax({
