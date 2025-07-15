@@ -139,7 +139,7 @@ component {
 		 * }
 		 */
 		moduleSettings = {
-			
+			cbValidation ={}
 		};
 
 		/**
