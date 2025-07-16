@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-4 bg-dark text-white pb-3">
-                <div class="d-flex flex-column gap-5 ">
+                <div class="d-flex flex-column gap-3 ">
                     <div class=" d-flex justify-content-center  align-items-center ">
                         <img src="#prc.data.profile_image#"
                             class="img-fluid rounded-circle d-flex justify-center align-itmes-center d-none d-md-block mt-3"
@@ -60,7 +60,7 @@
                         </div>
 
 
-                        <p class="mb-2"><i class="fa-solid fa-location-dot me-2 text-danger"></i>#prc.data.address#</p>
+                        <p class="mb-1"><i class="fa-solid fa-location-dot me-2 text-danger"></i>#prc.data.address#</p>
                     </div>
 
                     <cfif NOT structKeyExists(session, "user" )>
@@ -76,27 +76,28 @@
                             </a>
                         </div>
                     <cfelse>
+                        <!--- #writeDump(prc)# --->
+                        <cfif prc.isFollowing eq false>
+                            <button class="btn btn-outline-primary btn-sm px-5 py-1 mx-3" id="followBtn"
+                            data-id="#prc.data.profile_id#">
+                            <i class="fa-solid fa-user-plus me-1"></i>Follow</button>
 
-                         <div class="rounded shadow-lg p-3 border-top" >
-                            <h6 class="fw-bold mb-2">
-                                <i class="fa-solid fa-handshake me-1 text-primary"></i> Connect with #prc.data.firstName#
-                            </h6>
-                            <p class="text-muted small mb-3">
-                                Start building your professional network by Following and messaging.
-                            </p>
+                        <cfelse>
+                            <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 ps-3 ">
 
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-outline-primary btn-sm w-100" id="followBtn"
-                                    data-id="#prc.data.profile_id#">
-                                    <i class="fa-solid fa-user-plus me-1"></i> Send Follow Request
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1  d-flex justify-content-center align-items-center" id="unfollowBtn"
+                                data-id="#prc.data.profile_id#">
+                                <i class="fa-solid fa-user-minus me-1"></i>Unfollow
                                 </button>
-
-                                <button class="btn btn-outline-secondary btn-sm w-100" id="messageBtn"
-                                    data-id="#prc.data.profile_id#">
-                                    <i class="fa-solid fa-message me-1"></i> Send Message
+                                
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1 d-flex justify-content-center align-items-center" id="messageBtn"
+                                data-id="#prc.data.profile_id#">
+                                <i class="fa-solid fa-message me-1"></i> Message
                                 </button>
                             </div>
-                        </div>
+
+                    </cfif>
+                        
                     </cfif>
                     <!-- Platform Features -->
                     <div class="bg-dark text-white rounded shadow-lg p-3 border-top">
@@ -145,9 +146,6 @@
                             </div>
                         </div>
                     </div>
-
-                    
-
 
 
                     <cfelse>
@@ -360,7 +358,6 @@
        
             follower_id = #session.user?.profile_id#;
             following_id = #prc.data?.profile_id#;
-            // console.log(following_id,follower_id);
             
             $.ajax({
                 url: "#event.buildLink('profile.follow')#",
@@ -371,7 +368,29 @@
                     // console.log(res);
                     
                     if (res.STATUS == "success") {
-                        $("##followerNumber").text(res.DATA.FOLLOWERSCOUNT);
+                         window.location.href=`#event.buildLink('main.profileView')#?profile_id=${following_id}&follower_id=${follower_id}`
+                    }
+                },
+                error: function () {
+                    Swal.fire("Error", "Something went wrong", "error");
+                }
+            });
+        });
+
+        $(document).on("click", "##unfollowBtn", function () {
+       
+            follower_id = #session.user?.profile_id#;
+            following_id = #prc.data?.profile_id#;
+            
+            $.ajax({
+                url: "#event.buildLink('profile.unfollow')#",
+                type: 'POST',
+                data: { following_id, follower_id},
+                dataType: 'json',
+                success: function (res) {
+                    
+                    if (res.STATUS == "success") {
+                         window.location.href=`#event.buildLink('main.profileView')#?profile_id=${following_id}&follower_id=${follower_id}`
                     }
                 },
                 error: function () {
@@ -380,7 +399,4 @@
             });
         });
     </script>
-
-
-
 </cfoutput>

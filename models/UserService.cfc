@@ -448,6 +448,47 @@ component singleton {
 		}
 	}
 
+	function unFollow(rc){
+		transaction { 
+			try {
+
+				isFollowing = queryExecute('SELECT id FROM followers WHERE follower_id = :follower_id and following_id= :following_id ',
+					{
+						follower_id = { value="#rc.follower_id#", cfsqltype="cf_sql_integer" },
+						following_id = { value="#rc.following_id#", cfsqltype="cf_sql_integer" }
+					})
+					if (isFollowing.recordCount eq 0) {
+						return {
+							status: "error", 
+							message: "Already Unfollowed",
+						}
+					}
+
+				query_data = queryExecute('delete from followers where follower_id=:follower_id and following_id=:following_id',
+				{
+					follower_id = { value="#rc.follower_id#", cfsqltype="cf_sql_integer" },
+					following_id = { value="#rc.following_id#", cfsqltype="cf_sql_integer" }
+				});
+
+				
+				transaction action="commit";
+				return {
+					status: "success", 
+					message: "Unfollowed Successfully"
+				}
+
+			} catch (any error) {
+				// writeDump(error);abort;
+				transaction action="rollback"; 
+				return {
+					status: "error", 
+					message: "Server Error",
+					error: error
+				}
+			}
+		}
+	}
+	
 	function getFollowersCount(following_id){
 		try {
 			query_data = queryExecute('select count(follower_id) as followersCount from followers where following_id= :following_id',
@@ -490,6 +531,36 @@ component singleton {
 		}
 	}
 
+	function isFollowing(rc){
+		try {
+			query_data = queryExecute('select following_id from followers where follower_id= :follower_id and following_id= :following_id',
+			{
+				follower_id = { value=rc.follower_id, cfsqltype="cf_sql_integer" },
+				following_id = { value=rc.profile_id, cfsqltype="cf_sql_integer" }
+			});
+			// writeDump(query_data);abort;
+
+			if (query_data.recordCount eq 0) {
+				return {
+                status: "success", 
+                isFollowing: false
+	            }
+			}
+			else {
+				return {
+                status: "success", 
+                isFollowing: true
+	            }
+			}
+		} catch (any error) {
+			// writeDump(error);abort;
+            return {
+                status: "error", 
+                message: "Server Error",
+                error: error
+            }
+		}
+	}
 
 	function getFollowingList(profile_id){
 		try {
@@ -564,6 +635,8 @@ component singleton {
             }
 		}
 	}
+
+	
 
 
 	

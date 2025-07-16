@@ -1,37 +1,69 @@
+<style>
+  .nav-pills .nav-link {
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+  }
+
+  .nav-pills .nav-link:hover {
+    background-color: #0d6efd;
+    color: #fff;
+  }
+
+  .nav-pills .nav-link.active {
+    background-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+  }
+
+  .tab-content {
+    transition: all 0.5s ease;
+  }
+</style>
+
 <cfoutput>
-    <div class="container-fluid" >
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-4 bg-dark text-white pb-3">
                 <div class="d-flex flex-column gap-5 ">
                     <div class=" d-flex justify-content-center  align-items-center ">
-                        
+
                         <img src=#prc.data.profile_image#
                             class="img-fluid rounded-circle d-flex justify-center align-itmes-center d-none d-md-block mt-3"
                             alt="Profile Image" style="width: 90%; aspect-ratio: 1/1; object-fit: fill;">
-                        
+
                         <div class="row d-md-none">
                             <div class="col-3 mt-3"><img src="#prc.data.profile_image#"
-                            class="img-fluid rounded-circle d-flex justify-content-center align-itmes-center "
-                            alt="Profile Image" style="width: 100%; aspect-ratio: 1/1; object-fit: fill;"></div>
-                            <div class="col-8 d-flex justify-content-start align-items-center"><h5 class="fs-2 fw-bold ">#prc.data.firstName & " " & prc.data.lastName# </h5></div>
+                                    class="img-fluid rounded-circle d-flex justify-content-center align-itmes-center "
+                                    alt="Profile Image" style="width: 100%; aspect-ratio: 1/1; object-fit: fill;"></div>
+                            <div class="col-8 d-flex justify-content-start align-items-center">
+                                <h5 class="fs-2 fw-bold ">#prc.data.firstName & " " & prc.data.lastName# </h5>
+                            </div>
                         </div>
 
                     </div>
                     <div class="d-flex flex-column justify-content-center align-items-start ps-3">
 
                         <h5 class="fs-2 fw-bold d-none d-md-block ">#prc.data.firstName & " " & prc.data.lastName# </h5>
-                        
+
                         <div class="d-flex align-items-center gap-3 my-3">
                             <i class="fa-solid fa-user-group me-1 text-info"></i>
-                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'#" data-bs-toggle="modal" data-bs-target="##followersListModal" >                        
-                                    <strong class="text-white" id="followerNumber">#prc.followersCount#</strong>&nbsp;<small class="text-muted">Followers</small>
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "
+                                user" ) ? 'pe-auto' : 'pe-none' #" data-bs-toggle="modal"
+                                data-bs-target="##followersListModal">
+                                <strong class="text-white" id="followerNumber">#prc.followersCount#</strong>&nbsp;<small
+                                    class="text-muted">Followers</small>
                             </button>
 
-                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none'# " id="getFollowingList" data-bs-toggle="modal" data-bs-target="##followingListModal">
-                                    <strong class="text-white" id="followingNumber">#prc.FollowingCount#</strong>&nbsp;<small class="text-muted">Following</small>
+                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "
+                                user" ) ? 'pe-auto' : 'pe-none' # " id=" getFollowingList" data-bs-toggle="modal"
+                                data-bs-target="##followingListModal">
+                                <strong class="text-white"
+                                    id="followingNumber">#prc.FollowingCount#</strong>&nbsp;<small
+                                    class="text-muted">Following</small>
                             </button>
                         </div>
-                        
+
                         <p class="mb-2"><i class="fa-solid fa-envelope me-2 text-primary"></i>#prc.data.email#</p>
                         <p class="mb-2"><i class="fa-solid fa-phone me-2 text-success"></i>#prc.data.phoneNumber#
                         </p>
@@ -46,7 +78,8 @@
                                 class="fa-solid fa-user-pen ms-1"></i></a>
                         <button id="downoladPDF" class="btn btn-success text-white">Resume <i
                                 class="fa-solid fa-download"></i></button>
-                        <button id="passwordConfig" class="btn btn-secondary text-white" data-bs-toggle="modal" id="changePasswordbtn" data-bs-target="##changePasswordModal">Change Password <i
+                        <button id="passwordConfig" class="btn btn-secondary text-white" data-bs-toggle="modal"
+                            id="changePasswordbtn" data-bs-target="##changePasswordModal">Change Password <i
                                 class="fa-solid fa-key"></i></button>
                         <button class="btn btn-outline-danger" id="logout">Logout<i
                                 class="fa-solid fa-right-from-bracket ms-1"></i></button>
@@ -57,20 +90,82 @@
 
             </div>
 
-            <div class="col-lg-9 col-md-8 container d-flex flex-column gy-2 gap-2 pb-3">
+            <div class="col-lg-9 col-md-8  d-flex flex-column gy-2 gap-2 pb-3 ">
+                <ul class="nav nav-pills justify-content-center  p-2 border-bottom" role="tablist">
+                    <li class="nav-item mx-1">
+                        <a class="nav-link active d-flex align-items-center gap-1 px-4 py-2 border border-muted " id="pill-tab-0"
+                            data-bs-toggle="pill" href="##proflie_content" role="tab" aria-controls="pill-tabpanel-0"
+                            aria-selected="true">
+                            <i class="fa-solid fa-user"></i> Profile
+                        </a>
+                    </li>
 
-                <cfinclude template="./changePassword.cfm">
+                    <li class="nav-item mx-1">
+                        <a class="nav-link d-flex align-items-center gap-1 px-4 py-2 border border-muted"
+                            id="pill-tab-2" data-bs-toggle="pill" href="##posts_content" role="tab"
+                            aria-controls="pill-tabpanel-2" aria-selected="false">
+                            <i class="fa-solid fa-pen-nib"></i> Posts
+                        </a>
+                    </li>
+                </ul>
 
-                <cfinclude template="./education.cfm">
+                <!-- Tab Content -->
+                <div class="tab-content mt-3 fade show">
+                    <div class="tab-pane fade show active" id="proflie_content"
+                        role="tabpanel" aria-labelledby="pill-tab-0">
+                        <div class="d-flex flex-column gy-2 gap-2 pb-3">
+                                <cfinclude template="./changePassword.cfm">
+                                <cfinclude template="./education.cfm">
+                                <cfinclude template="./experience.cfm">
+                                <cfinclude template="./projects.cfm">
+                                <cfinclude template="./skills.cfm">
+                                <cfinclude template="./followingAndFollowersList.cfm">
+                        </div>
+                    </div>
 
-                <cfinclude template="./experience.cfm">
+                    <div class="tab-pane fade  " id="posts_content" role="tabpanel" aria-labelledby="pill-tab-1">
+                        <div class="card shadow-sm rounded-4 mb-4">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">
+                                    <i class="fa-solid fa-pen-nib me-2 text-primary"></i> Create a Post
+                                </h5>
+                                <form id="addPostForm">
+                                    <div class="mb-3">
+                                        <textarea class="form-control border-0 bg-light rounded-3" id="postContent" rows="4" placeholder="What do you want to talk about?"></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex gap-3">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa-solid fa-image me-1"></i> Add Photo
+                                            </button>
+                                        
+                                        </div>
+                                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                                            <i class="fa-solid fa-paper-plane me-1"></i> Post
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
-                <cfinclude template="./projects.cfm">
-                
-                <cfinclude template="./skills.cfm">
+                        <div class="card shadow-sm rounded-4 mb-4">
+                            <div class="card-body text-center text-muted py-4">
+                                <i class="fa-solid fa-pen-nib fa-2x mb-2"></i><br>
+                                No posts added yet.
+                            </div>
+                        </div>
 
-                <cfinclude template="./followingAndFollowersList.cfm">
 
+
+                        <!-- <div class="card-body text-center text-muted py-4">
+                            <i class="fa-solid fa-pen-nib fa-2x mb-3"></i>
+                            <h6 class="fw-bold">No posts to show</h6>
+                            <p class="mb-0 small">This user hasn't shared any posts yet.</p>
+                        </div> -->
+
+                    </div>
+
+                </div>
             </div>
 
             <!--- 
@@ -129,7 +224,7 @@
 --->
         </div>
     </div>
-    
+
 
 
 

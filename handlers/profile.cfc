@@ -18,6 +18,7 @@ component extends="baseHandler"{
 	property name="experienceService" inject="ExperienceService";
 	property name="projectsService" inject="ProjectsService";
 	property name="baseService" inject="BaseService";
+	property name="userValidator" inject="UserValidator";
 
 	function logout( event, rc, prc ){
 		try{
@@ -40,6 +41,8 @@ component extends="baseHandler"{
 	}
 
 	function editProfile(event, rc, prc){
+		
+
 		res = service.getProfile(session.USER.profile_id);
 		if(res.status eq "error"){
 			prc.message = res.message;
@@ -50,7 +53,16 @@ component extends="baseHandler"{
 
 	function updateProfile(event, rc, prc){
 		// writeDump(rc);abort;
-		
+			
+		var result = userValidator.validateUser(rc);
+		// writeDump(result);abort;
+        if (result.hasErrors()) {
+            return {
+                status: "error",
+                message: "Validation failed",
+                errors: result.getAllErrors()
+            };
+        }
 		res= service.updateProfile(rc);
 
 		return res;
@@ -381,6 +393,13 @@ component extends="baseHandler"{
 	function follow(event, rc, prc){
 		// writeDump(rc);abort;
 		res = service.follow(rc);
+
+		return res;
+	}
+
+	function unfollow(event, rc, prc){
+		// writeDump(rc);abort;
+		res = service.unFollow(rc);
 
 		return res;
 	}

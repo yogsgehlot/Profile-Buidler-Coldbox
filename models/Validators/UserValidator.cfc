@@ -10,7 +10,6 @@ component singleton {
 		return this;
 	}
 
-
 	function validateLogin( data ) {
         return validationManager.validate(
             target = data,
@@ -18,17 +17,17 @@ component singleton {
                 "email" = {
                     required = true,
                     type = "email",
-                    messages = {
+                    message = {
                         required = "Email is required",
                         type = "Invalid email format"
                     }
                 },
                 "password" = {
                     required = true,
-                    minLength = 6,
-                    messages = {
+                    size = "6..20",
+                    message = {
                         required = "Password is required",
-                        minLength = "Minimum 6 characters"
+                        size = "length should be in range 6 to 20"
                     }
                 }
             }
@@ -42,29 +41,29 @@ component singleton {
 				"firstName"= {
 					required= true,
 					type= "string",
-					minlength= 2,
-					messages = {
+					size= 2,
+					message = {
 						required = "First Name is required",
 						type = "Invalide formate",
-						minlength = "Minimum 6 characters"
+						size = "Minimum 2 characters"
 					}
                 },
 
 				"lastName"= {
 					required: true,
 					type= "string",
-					minlength= 2,
-					messages = {
+					size= 2,
+					message = {
 						required = "Last Name is required",
 						type = "Invalide formate",
-						minlength = "Minimum 6 characters"
+						size = "Minimum 2 characters"
 					}
 				},
 
                 "email" = {
                     required = true,
                     type = "email",
-                    messages = {
+                    message = {
                         required = "Email is required",
                         type = "Invalid email format"
                     }
@@ -73,39 +72,37 @@ component singleton {
 				"phoneNumber"= {
                         required= true,
                         type= "telephone",
-                        minlength= 10,
-                        maxlength= 15,
-						messages={
+                        size= "10..15",
+						message={
 							required= "Phone Number is required",
 							type= "Invalide formate",
-							minlength=" Minimum 10 Digits",
-							maxlength= "Maximum 15 Digits",
+							size=" length should be in range 10 to 15"
 						}
 				},
 
                 "password" = {
                     required = true,
-                    minLength = 6,
-                    messages = {
+                    size = "6..20",
+                    message = {
                         required = "Password is required",
-                        minLength = "Minimum 6 characters"
+                        size = "length should be in range 6 to 20"
                     }
                 },
 
 				"confirm_password" = {
                     required = true,
                     sameAs = "password",
-                    messages = {
+                    message = {
                         sameAs = "Passwords must match"
                     }
                 },
 
 				"address" = {
 					required = true,
-                    minlength = 5,
-					messages = {
+                    size = "5..100",
+					message = {
                         required = "address is required",
-                        minLength = "Minimum 5 characters"
+                        size = "Minimum 5 characters"
                     }
 				}
             }
@@ -119,61 +116,59 @@ component singleton {
 				"firstName"= {
 					required= true,
 					type= "string",
-					minlength= 2,
-					messages = {
+					size= "4..30" ,
+					message = {
 						required = "First Name is required",
 						type = "Invalide formate",
-						minlength = "Minimum 6 characters"
+						size = "Minimum 2 characters"
 					}
                 },
 
 				"lastName"= {
 					required: true,
 					type= "string",
-					minlength= 2,
-					messages = {
+					size= "2..30",
+					message = {
 						required = "Last Name is required",
 						type = "Invalide formate",
-						minlength = "Minimum 6 characters"
+						size = "Minimum 2 characters"
 					}
 				},
 
                 "email" = {
                     required = true,
                     type = "email",
-                    messages = {
+                    message = {
                         required = "Email is required",
                         type = "Invalid email format"
                     }
                 },
 
 				"phoneNumber"= {
-                        required= true,
-                        type= "telephone",
-                        minlength= 10,
-                        maxlength= 15,
-						messages={
-							required= "Phone Number is required",
-							type= "Invalide formate",
-							minlength=" Minimum 10 Digits",
-							maxlength= "Maximum 15 Digits",
-						}
+                    required= true,
+                    type= "telephone",
+                    size= "10..15",
+                    message={
+                        required= "Phone Number is required",
+                        type= "Invalide formate",
+                        size=" length should be in range 10 to 15"
+                    }
 				},
 				
 				"dob"= {
                     required= true,
                     type= "date",
-					messages = {
+					message = {
 						required = "dob is required",
                         type = "Invalid format"
 					}
                 },
 				"address" = {
 					required = true,
-                    minlength = 5,
-					messages = {
+                    size = "5..100",
+					message = {
                         required = "address is required",
-                        minLength = "Minimum 5 characters"
+                        size = "Minimum 5 characters"
                     }
 				}
             }
@@ -187,37 +182,30 @@ component singleton {
 				
                 "oldPassword" = {
                     required = true,
-                    minLength = 6,
-                    messages = {
+                    size = "6..20",
+                    message = {
                         required = "old Password is required",
-                        minLength = "Minimum 6 characters"
+                        size = "length should be in range 6 to 20"
                     }
                 },
 
                 "newPassword" = {
                     required = true,
-                    minLength = 6,
-                    messages = {
+                    size = "6..20",
+                    message= {
                         required = "new Password is required",
-                        minLength = "Minimum 6 characters"
+                        size = "length should be in range 6 to 20"
                     }
                 },
 
 				"confirmPassword" = {
                     required = true,
                     sameAs = "password",
-                    messages = {
+                    message = {
                         sameAs = "Passwords must match"
                     }
                 }
             }
         );
     }
-
-	
-
-
-
-
-
 }

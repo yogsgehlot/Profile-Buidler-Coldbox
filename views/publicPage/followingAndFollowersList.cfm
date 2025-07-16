@@ -106,10 +106,13 @@
                     dataType: "json",
                     success: function (res) {
                         if (res.STATUS === "success") {
-                            console.log(res);
+                            // console.log(res);
+                            
                             var html = '';
                             if (res.FOLLOWERSLIST.length>0) {
                                 res.FOLLOWERSLIST.forEach(function (item) {
+                                    
+                                    
                                     html += `
                                         <div class="d-flex justify-content-between align-items-center border rounded-3 p-3 mb-3 shadow-sm bg-light">
                                             <div class="d-flex align-items-center">
@@ -160,8 +163,8 @@
 
         })
 
-        function viewProfile (profile_id){
-            window.location.href=`#event.buildLink('main.profileView')#?profile_id=${profile_id}`
+        function viewProfile (profile_id, follower_id){
+            window.location.href=`#event.buildLink('main.profileView')#?profile_id=${profile_id}&follower_id=#session.user?.profile_id#`
         }
     </script>
 

@@ -162,4 +162,29 @@
 </cfoutput> --->
 
 
+<style>
+  .nav-pills .nav-link {
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+  }
 
+  .nav-pills .nav-link:hover {
+    background-color: #0d6efd;
+    color: #fff;
+  }
+
+  .nav-pills .nav-link.active {
+    background-color: #0d6efd;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+  }
+
+  .tab-content {
+    transition: all 0.5s ease;
+  }
+</style>
+
+
+
+<!-- Tab Navigation -->

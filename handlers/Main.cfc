@@ -88,6 +88,15 @@ component extends="baseHandler" {
 			prc.FollowersCount = res.followersCount;
 		}
 
+
+		res = service.isFollowing(rc);
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.isFollowing = res.isFollowing;
+		}
+
 		event.setView("publicPage/publicProfile");
 	}
 

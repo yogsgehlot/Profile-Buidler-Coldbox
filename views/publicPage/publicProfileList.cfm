@@ -6,7 +6,7 @@
 
     .card-hover:hover {
         scale: 101%;
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
 
 
@@ -68,7 +68,7 @@
                         <div class="col">
 
                             <div class="card h-100  rounded-3 border-2 border-muted position-relative card-hover "
-                                onclick="window.location.href='#event.buildLink('main.profileView')#?profile_id=#prc.allUsers.profile_id#'">
+                                >
                                 <div class="card-body d-flex flex-column align-items-center gap-3">
                                     <img src="#prc.allUsers.profile_image#" alt="Profile Image"
                                         class="rounded-circle shadow-sm"
@@ -90,9 +90,10 @@
 
                                     <div class="mt-auto d-flex justify-content-between align-items-center pt-3">
                                         <button
-                                            class="btn btn-outline-primary btn-sm rounded-pill sendConnectBtn pt-1 px-5"
-                                            data-id="prc.allUsers.user_id">
-                                            <i class="fa-solid fa-user-plus me-1"></i>Connect
+                                            class="btn btn-outline-primary btn-sm rounded-pill px-3 shadow-sm"
+                                            data-id="prc.allUsers.user_id"
+                                            onclick="window.location.href='#event.buildLink('main.profileView')#?profile_id=#prc.allUsers.profile_id#&follower_id=#session.user?.profile_id#'" >
+                                            <i class="fa-solid fa-eye me-1"></i> View Profile
                                         </button>
                                     </div>
                                 </div>

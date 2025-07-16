@@ -161,7 +161,7 @@
         })
 
         function viewProfile (profile_id){
-            window.location.href=`#event.buildLink('main.profileView')#?profile_id=${profile_id}`
+            window.location.href=`#event.buildLink('main.profileView')#?profile_id=${profile_id}&follower_id=#session.user?.profile_id#`
         }
     </script>
 
