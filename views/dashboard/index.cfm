@@ -1,19 +1,26 @@
 <style>
   .nav-pills .nav-link {
-    border-radius: 50px;
-    transition: all 0.3s ease-in-out;
+    border-radius: 0px;
+    transition: all 0.3s ease;
     font-weight: 500;
+    color: #212529;
+    
+
   }
 
   .nav-pills .nav-link:hover {
-    background-color: #0d6efd;
-    color: #fff;
+     color: #0876e4;
+    /* color: #fff; */
+    /* scale: 103%; */
+    /* font-weight: 5px; */
   }
 
   .nav-pills .nav-link.active {
-    background-color: #0d6efd;
-    color: #fff;
-    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+    /* background-color: #ffffff; */
+    color: #212529;
+    border-bottom: 1px solid #212529;
+
+    /* box-shadow: 0 0 10px rgba(13, 110, 253, 0.3); */
   }
 
   .tab-content {
@@ -23,7 +30,7 @@
 
 <cfoutput>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row">   
             <div class="col-lg-3 col-md-4 bg-dark text-white pb-3">
                 <div class="d-flex flex-column gap-5 ">
                     <div class=" d-flex justify-content-center  align-items-center ">
@@ -91,9 +98,9 @@
             </div>
 
             <div class="col-lg-9 col-md-8  d-flex flex-column gy-2 gap-2 pb-3 ">
-                <ul class="nav nav-pills justify-content-center  p-2 border-bottom" role="tablist">
+                <ul class="nav nav-pills justify-content-center  p-2 border-bottom bg-transparent" role="tablist">
                     <li class="nav-item mx-1">
-                        <a class="nav-link active d-flex align-items-center gap-1 px-4 py-2 border border-muted " id="pill-tab-0"
+                        <a class="nav-link active d-flex align-items-center gap-1 px-4 py-2 bg-transparent " id="pill-tab-0"
                             data-bs-toggle="pill" href="##proflie_content" role="tab" aria-controls="pill-tabpanel-0"
                             aria-selected="true">
                             <i class="fa-solid fa-user"></i> Profile
@@ -101,7 +108,7 @@
                     </li>
 
                     <li class="nav-item mx-1">
-                        <a class="nav-link d-flex align-items-center gap-1 px-4 py-2 border border-muted"
+                        <a class="nav-link d-flex align-items-center gap-1 px-4 py-2 bg-transparent"
                             id="pill-tab-2" data-bs-toggle="pill" href="##posts_content" role="tab"
                             aria-controls="pill-tabpanel-2" aria-selected="false">
                             <i class="fa-solid fa-pen-nib"></i> Posts
@@ -124,45 +131,7 @@
                     </div>
 
                     <div class="tab-pane fade  " id="posts_content" role="tabpanel" aria-labelledby="pill-tab-1">
-                        <div class="card shadow-sm rounded-4 mb-4">
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-3">
-                                    <i class="fa-solid fa-pen-nib me-2 text-primary"></i> Create a Post
-                                </h5>
-                                <form id="addPostForm">
-                                    <div class="mb-3">
-                                        <textarea class="form-control border-0 bg-light rounded-3" id="postContent" rows="4" placeholder="What do you want to talk about?"></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="d-flex gap-3">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                                <i class="fa-solid fa-image me-1"></i> Add Photo
-                                            </button>
-                                        
-                                        </div>
-                                        <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                            <i class="fa-solid fa-paper-plane me-1"></i> Post
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="card shadow-sm rounded-4 mb-4">
-                            <div class="card-body text-center text-muted py-4">
-                                <i class="fa-solid fa-pen-nib fa-2x mb-2"></i><br>
-                                No posts added yet.
-                            </div>
-                        </div>
-
-
-
-                        <!-- <div class="card-body text-center text-muted py-4">
-                            <i class="fa-solid fa-pen-nib fa-2x mb-3"></i>
-                            <h6 class="fw-bold">No posts to show</h6>
-                            <p class="mb-0 small">This user hasn't shared any posts yet.</p>
-                        </div> -->
-
+                        <cfinclude template="../posts/posts.cfm">
                     </div>
 
                 </div>

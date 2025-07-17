@@ -8,6 +8,13 @@
                     <i class="fa-solid fa-plus "></i>
                 </button>
             </div>  
+
+            <cfif prc.experience.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-briefcase fa-2x mb-2"></i><br>No experience added yet.
+                                </div>
+            </cfif>
+                            
             <cfloop index="i" from="1" to="#prc.experience.recordCount#">
                 <cfset collapseID="exp" & i>
                     <div class="card-body">

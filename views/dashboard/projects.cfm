@@ -312,7 +312,7 @@
 
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-success">
                         <i class="fa-solid fa-floppy-disk me-1"></i>Update Project
                     </button>
                 </div>

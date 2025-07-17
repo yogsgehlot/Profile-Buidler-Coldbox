@@ -8,6 +8,13 @@
                     <i class="fa-solid fa-plus "></i>
                 </button>
             </div>
+
+            <cfif prc.edu.recordCount EQ 0>
+                                <div class="card-body text-center text-muted py-4">
+                                    <i class="fa-solid fa-user-graduate fa-2x mb-2"></i><br>No education added yet.
+                                </div>
+            </cfif>
+                            
             <cfloop index="i" from="1" to="#prc.edu.recordCount#">
                 <cfset collapseID="edu" & i>
                     <div class="card-body">
