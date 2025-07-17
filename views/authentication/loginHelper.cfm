@@ -47,7 +47,7 @@
                     let formData = new FormData(form);
                     var fullUrl = "#cgi.HTTP_REFERER#"
                     var relativePath = fullUrl.replace(`http://#cgi.http_host#/`, '')
-                    console.log("relative path is : ", relativePath );
+                    // console.log("relative path is : ", relativePath );
 
                     
                     $.ajax({
@@ -59,6 +59,7 @@
                         dataType: 'json',
                         success: function (data) {
                             if (data.STATUS == "success") {
+                               
                                 Swal.fire("Login Successful", "", "success").then(() => {
                                     if (!relativePath.includes("profile_id")) {
                                         window.location.href = "#event.buildLink('main.index')#";
@@ -67,7 +68,8 @@
                                         var profile_id_index = relativePath.indexOf("=") + 1;
                                         profile_id = relativePath.substring(profile_id_index);
                                         
-                                        window.location.href = `#event.buildLink("main.profileView")#?profile_id=${profile_id}`;
+                                         var follower_id = data.PROFILE_ID;
+                                        window.location.href = `#event.buildLink("main.profileView")#?profile_id=${profile_id}&follower_id=${follower_id}`;
                                     }
                                 });
                             } else {

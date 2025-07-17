@@ -25,7 +25,8 @@ component extends="coldbox.system.EventHandler"{
        if(res.status eq "error"){return res}
        return{
             status: "success",
-            message: "Logged in succesfully"
+            message: "Logged in succesfully",
+            profile_id: res.profile_id
         }
     }
         

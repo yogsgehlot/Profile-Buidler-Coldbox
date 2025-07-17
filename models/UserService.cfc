@@ -74,7 +74,8 @@ component singleton {
             
 				return {
 				status: "success",
-				message = "Logged in successfully"
+				message : "Logged in successfully",
+				profile_id : query_data.profile_id
 				}
             }
         } catch (any error) {

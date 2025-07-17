@@ -1,33 +1,36 @@
 <cfoutput>
-    <div class="card shadow-lg rounded-4 ">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            <h5 class="fw-bold mb-0">
-                <i class="fa-solid fa-pen-nib me-2 "></i> Create a Post
-            </h5>
-        </div>
+    <cfif prc.data.profile_id eq session.user?.profile_id >
 
-        <div class="card-body ">
-            <form id="addPostForm">
-                <div class="mb-3">
-                    <textarea class="form-control border-3 rounded-3" id="postContent" rows="4" placeholder="What do you want to talk about?"></textarea>
-                </div>
-                <div class="d-flex justify-content-end align-items-center">
-                    <!--- <div class="d-flex gap-3">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                            <i class="fa-solid fa-image me-1"></i> Add Photo
+        <div class="card shadow-lg rounded-4 ">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-pen-nib me-2 "></i> Create a Post
+                </h5>
+            </div>
+            
+            <div class="card-body ">
+                <form id="addPostForm">
+                    <div class="mb-3">
+                        <textarea class="form-control border-3 rounded-3" id="postContent" rows="4" placeholder="What do you want to talk about?"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <!--- <div class="d-flex gap-3">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa-solid fa-image me-1"></i> Add Photo
+                            </button>
+                            
+                        </div> --->
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Post
                         </button>
-                    
-                    </div> --->
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">
-                        <i class="fa-solid fa-paper-plane me-1"></i> Post
-                    </button>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    </cfif>
 
-    <div class="card shadow-sm rounded-4 mt-4">
-        <div class="card-body text-center text-muted py-4">
+    <div class=" mt-4 p-5">
+        <div class="text-center text-muted py-4 ">
             <i class="fa-solid fa-pen-nib fa-2x mb-2"></i><br>
             No posts added yet.
         </div>

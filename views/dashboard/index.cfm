@@ -98,27 +98,30 @@
             </div>
 
             <div class="col-lg-9 col-md-8  d-flex flex-column gy-2 gap-2 pb-3 ">
-                <ul class="nav nav-pills justify-content-center  p-2 border-bottom bg-transparent" role="tablist">
+                <ul class="nav nav-pills justify-content-center px-2 pt-2 border-bottom bg-transparent" role="tablist">
+
                     <li class="nav-item mx-1">
-                        <a class="nav-link active d-flex align-items-center gap-1 px-4 py-2 bg-transparent " id="pill-tab-0"
+                        <a class="nav-link active d-flex align-items-center gap-1 px-4 py-2 bg-transparent"
+                            id="pill-tab-2" data-bs-toggle="pill" href="##posts_content" role="tab"
+                            aria-controls="pill-tabpanel-2" aria-selected="false">
+                            <i class="fa-solid fa-pen-nib"></i> Posts
+                        </a>
+                    </li>
+
+                    <li class="nav-item mx-1">
+                        <a class="nav-link  d-flex align-items-center gap-1 px-4 py-2 bg-transparent " id="pill-tab-0"
                             data-bs-toggle="pill" href="##proflie_content" role="tab" aria-controls="pill-tabpanel-0"
                             aria-selected="true">
                             <i class="fa-solid fa-user"></i> Profile
                         </a>
                     </li>
 
-                    <li class="nav-item mx-1">
-                        <a class="nav-link d-flex align-items-center gap-1 px-4 py-2 bg-transparent"
-                            id="pill-tab-2" data-bs-toggle="pill" href="##posts_content" role="tab"
-                            aria-controls="pill-tabpanel-2" aria-selected="false">
-                            <i class="fa-solid fa-pen-nib"></i> Posts
-                        </a>
-                    </li>
+                    
                 </ul>
 
                 <!-- Tab Content -->
                 <div class="tab-content mt-3 fade show">
-                    <div class="tab-pane fade show active" id="proflie_content"
+                    <div class="tab-pane fade " id="proflie_content"
                         role="tabpanel" aria-labelledby="pill-tab-0">
                         <div class="d-flex flex-column gy-2 gap-2 pb-3">
                                 <cfinclude template="./changePassword.cfm">
@@ -130,7 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade  " id="posts_content" role="tabpanel" aria-labelledby="pill-tab-1">
+                    <div class="tab-pane fade  show active" id="posts_content" role="tabpanel" aria-labelledby="pill-tab-2">
                         <cfinclude template="../posts/posts.cfm">
                     </div>
 
