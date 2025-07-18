@@ -12,8 +12,15 @@ component extends="coldbox.system.EventHandler"{
 	this.aroundHandler_except = "";
 	this.allowedMethods = {};
 
-	
+	property name="postsService" inject="PostsService";
 
+
+	function addPost(event, rc, prc){
+		// writeDump(rc);abort;	
+		res= postsService.addPost(rc);
+
+		return res;
+	}
 
 
 }

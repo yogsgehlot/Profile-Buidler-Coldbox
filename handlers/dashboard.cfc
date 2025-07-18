@@ -18,6 +18,7 @@ component extends="baseHandler"{
 	property name="experienceService" inject="ExperienceService";
 	property name="projectsService" inject="ProjectsService";
 	property name="baseService" inject="BaseService";
+	property name="postsService" inject="PostsService";
 	
 	function index( event, rc, prc ){
 		// writeDump(rc);abort;
@@ -87,6 +88,15 @@ component extends="baseHandler"{
 			
 			prc.FollowersCount = res.followersCount;
 		}
+
+		res = postsService.getPosts(rc.profile_id);
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.posts = res.data;
+		}
+
 
 
 

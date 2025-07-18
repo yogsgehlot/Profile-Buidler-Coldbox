@@ -5,6 +5,7 @@ component extends="baseHandler" {
 	property name="skillService" inject="SkillService";
 	property name="experienceService" inject="ExperienceService";
 	property name="projectsService" inject="ProjectsService";
+	property name="postsService" inject="PostsService";
 
 
 	function index( event, rc, prc ){
@@ -95,6 +96,15 @@ component extends="baseHandler" {
 		}else {
 			
 			prc.isFollowing = res.isFollowing;
+		}
+
+
+		res = postsService.getPosts(rc.profile_id);
+		if(res.status eq "error"){
+			prc.message = res.message;
+		}else {
+			
+			prc.posts = res.data;
 		}
 
 		event.setView("publicPage/publicProfile");

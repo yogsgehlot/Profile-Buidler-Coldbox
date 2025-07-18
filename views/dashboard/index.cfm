@@ -55,15 +55,13 @@
 
                         <div class="d-flex align-items-center gap-3 my-3">
                             <i class="fa-solid fa-user-group me-1 text-info"></i>
-                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "
-                                user" ) ? 'pe-auto' : 'pe-none' #" data-bs-toggle="modal"
+                            <button class="text-center btn btn-link text-decoration-none #structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none' #" data-bs-toggle="modal"
                                 data-bs-target="##followersListModal">
                                 <strong class="text-white" id="followerNumber">#prc.followersCount#</strong>&nbsp;<small
                                     class="text-muted">Followers</small>
                             </button>
 
-                            <button class="text-center btn btn-link text-decoration-none # structKeyExists(session, "
-                                user" ) ? 'pe-auto' : 'pe-none' # " id=" getFollowingList" data-bs-toggle="modal"
+                            <button class="text-center btn btn-link text-decoration-none #structKeyExists(session, "user" ) ? 'pe-auto' : 'pe-none' # " id=" getFollowingList" data-bs-toggle="modal"
                                 data-bs-target="##followingListModal">
                                 <strong class="text-white"
                                     id="followingNumber">#prc.FollowingCount#</strong>&nbsp;<small
@@ -120,25 +118,28 @@
                 </ul>
 
                 <!-- Tab Content -->
-                <div class="tab-content mt-3 fade show">
+                <div class="tab-content mt-3 fade show" >
                     <div class="tab-pane fade " id="proflie_content"
                         role="tabpanel" aria-labelledby="pill-tab-0">
-                        <div class="d-flex flex-column gy-2 gap-2 pb-3">
+                        <div class="d-flex flex-column gy-2 gap-2 px-md-5">
                                 <cfinclude template="./changePassword.cfm">
                                 <cfinclude template="./education.cfm">
                                 <cfinclude template="./experience.cfm">
                                 <cfinclude template="./projects.cfm">
                                 <cfinclude template="./skills.cfm">
-                                <cfinclude template="./followingAndFollowersList.cfm">
                         </div>
                     </div>
 
                     <div class="tab-pane fade  show active" id="posts_content" role="tabpanel" aria-labelledby="pill-tab-2">
-                        <cfinclude template="../posts/posts.cfm">
+                        <div class="d-flex flex-column gy-2 gap-2 px-md-5">
+                            <cfinclude template="../posts/posts.cfm">
+                        </div>
                     </div>
 
                 </div>
             </div>
+
+            <cfinclude template="./followingAndFollowersList.cfm">
 
             <!--- 
             <div class="col-md-7">
