@@ -50,9 +50,18 @@ component singleton {
 		try {
 			// writeDump(rc);abort;
 			query_data = queryExecute('
-				SELECT profile_image, CONCAT(firstName, " ", lastName) AS full_name, content, media_url 
-				FROM posts INNER JOIN profiles on posts.profile_id = profiles.profile_id
+				SELECT 
+					profiles.profile_image, 
+					CONCAT(profiles.firstName, " ", profiles.lastName) AS full_name, 
+					posts.post_id, 
+					posts.content, 
+					posts.media_url, 
+					COUNT(post_likes.post_id) AS total_likes
+				FROM posts
+				INNER JOIN profiles ON posts.profile_id = profiles.profile_id
+				LEFT JOIN post_likes ON posts.post_id = post_likes.post_id
 				WHERE posts.profile_id = :profile_id
+				GROUP BY posts.post_id, profiles.profile_image, profiles.firstName, profiles.lastName, posts.content, posts.media_url
 				ORDER BY posts.created_at DESC',
             {
 				profile_id = { value="#profile_id#", cfsqltype="cf_sql_integer"}
@@ -64,6 +73,82 @@ component singleton {
 				message: "Posts read successfully"
 			}
 			
+		} catch (any error) {
+			return {
+				status: "error",
+				message: "server Error: #error#"
+			}
+		}
+	}
+
+	function toggleLike(rc) {
+		try {
+	
+			var alreadyLiked = queryExecute(
+				"SELECT 1 FROM post_likes WHERE post_id = :post_id AND profile_id = :profile_id",
+				{ 
+					post_id =  { value= rc.post_id, cfsqltype="cf_sql_integer"}, 
+					profile_id = { value= rc.profile_id, cfsqltype="cf_sql_integer"} 
+				}
+			);
+	
+			if (alreadyLiked.recordCount neq 0) {
+				
+				queryExecute(
+					"DELETE FROM post_likes WHERE post_id = :post_id AND profile_id = :profile_id",
+					{ 
+						post_id =  { value= rc.post_id, cfsqltype="cf_sql_integer"}, 
+						profile_id = { value= rc.profile_id, cfsqltype="cf_sql_integer"} 
+					}
+				);
+				return { 
+					status: "success",
+					btn_status: "disliked",
+					message: "post disliked succesfully"
+				};
+			} else {
+				
+				queryExecute(
+					"INSERT INTO post_likes (post_id, profile_id) VALUES (:post_id, :profile_id)",
+					{
+						post_id =  { value= rc.post_id, cfsqltype="cf_sql_integer"}, 
+						profile_id = { value= rc.profile_id, cfsqltype="cf_sql_integer"} 
+					}
+				);
+				return { 
+					status: "success",
+					btn_status: "liked",
+					message: "post liked succesfully" 
+				};
+			}
+			
+		} catch (any error) {
+			return {
+				status: "error",
+				message: "server Error: #error#"
+			}
+		}
+	}
+
+	function getLikesCount(rc){
+		try {
+			query_data = queryExecute("
+							SELECT COUNT(*) AS total_likes
+							FROM post_likes
+							WHERE post_id = :post_id",
+							{
+								post_id =  { value= rc.post_id, cfsqltype="cf_sql_integer"} 
+							}
+			);
+
+			// writeDump(query_data);abort;
+
+			return { 
+				status: "success",
+				message: "get likes count succesfully",
+				total_likes: query_data.total_likes
+			};
+
 		} catch (any error) {
 			return {
 				status: "error",

@@ -22,6 +22,16 @@ component extends="coldbox.system.EventHandler"{
 		return res;
 	}
 
+	function toggleLike(event, rc, prc){
+		res = postsService.toggleLike(rc);
+		return res;
+	}
+
+	function getLikesCount(event, rc, prc){
+		res = postsService.getLikesCount(rc);
+		return res;
+	}
+
 
 }
 

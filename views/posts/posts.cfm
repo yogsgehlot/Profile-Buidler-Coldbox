@@ -98,7 +98,7 @@
                     <div class="px-3 pb-2 text-muted small d-flex justify-content-between border-bottom">
                         <div>
                             <i class="fa-solid fa-thumbs-up text-primary me-1"></i>
-                            <span>124</span> Likes
+                            <span id="likes_#prc.posts.post_id#">#prc.posts.total_likes#</span> Likes
                         </div>
                         <div>
                             <span>18 Comments</span>|<span>7 Shares</span>
@@ -106,28 +106,46 @@
                     </div>
     
                     <div class="card-footer border-0 d-flex justify-content-around">
-                        <button class="btn py-1 me-2">
+                       <button class="btn like-btn" data-post-id="#prc.posts.post_id#">
                             <i class="fa-regular fa-thumbs-up me-1"></i> Like
                         </button>
-                        <button class="btn py-1 me-2">
+                        <button class="btn py-1 me-2" data-bs-toggle="collapse" data-bs-target="##collapseComments" aria-expanded="false" aria-controls="collapseComments">
                             <i class="fa-regular fa-comment me-1"></i> Comment
                         </button>
                         <button class="btn py-1">
                             <i class="fa-solid fa-share me-1"></i> Share
                         </button>
                     </div>
+
+                    <div class="card-footer border-0 collapse" id="collapseComments">
+                       
+                        <div class="d-flex mb-3 ">
+                            <!-- Commenter Image -->
+                            <img src="{commenter_image_url}" alt="User" width="40" height="40" class="rounded-circle me-2 shadow-sm">
+
+                            <!-- Comment Content -->
+                            <div class="bg-light rounded-3 px-3 py-2 w-100">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-1 fw-semibold">{commenter_name}</h6>
+                                    <small class="text-muted">{comment_time}</small>
+                                </div>
+                                <p class="mb-1 text-dark">{comment_text}</p>
+                                <div class="d-flex gap-3 small text-muted">
+                                    <a href="" class="text-decoration-none">Like</a>
+                                    <a href="" class="text-decoration-none">Reply</a>
+                                </div>
+                            </div>
+                        </div>                       
+                        <p class="">
+                            <button class="btn btn-link" type="button" >
+                                load more comments
+                            </button>
+                        </p>
+                    </div>
                 </div>
             </cfloop>
         </div>
     </cfif>
-
-
-
-    <!-- <div class="card-body text-center text-muted py-4">
-        <i class="fa-solid fa-pen-nib fa-2x mb-3"></i>
-        <h6 class="fw-bold">No posts to show</h6>
-        <p class="mb-0 small">This user hasn't shared any posts yet.</p>
-    </div> -->
 
     <script>
 
@@ -147,6 +165,7 @@
                     reader.readAsDataURL(file);
                 }
             })
+
             $('##addPostForm').on('submit', function (e) {
                 e.preventDefault();
 
@@ -183,7 +202,44 @@
                     }
                 });
             });
+
+            $(".like-btn").on("click", function () {
+                const post_id = $(this).data("post-id");
+                const btn = $(this);
+
+                $.ajax({
+                    url: "#event.buildLink('posts.toggleLike')#",
+                    type: "POST",
+                    data: { post_id: post_id, profile_id : #session.user?.profile_id# },
+                    success: function (res) {
+                        if (res.BTN_STATUS === "liked") {
+                            btn.addClass("text-primary");
+                            btn.find("i").removeClass("fa-regular").addClass("fa-solid");
+                        } else {
+                            btn.removeClass("text-primary");
+                            btn.find("i").removeClass("fa-solid").addClass("fa-regular");
+                        }
+                        getLikesCount(post_id)
+                    }
+                });
+            });
+
+
+
         });
+
+        function getLikesCount(post_id) {
+            $.ajax({
+                url: "#event.buildLink('posts.getLikesCount')#",
+                type: "POST",
+                data: { post_id: post_id },
+                success: function (res) {
+                    const element_id = `likes_${post_id}`;
+                    // console.log("Updating element:", res.TOTAL_LIKES);
+                    $(`##${element_id}`).html(`${res.TOTAL_LIKES}`);
+                }
+            });
+        }
 
 
     </script>
