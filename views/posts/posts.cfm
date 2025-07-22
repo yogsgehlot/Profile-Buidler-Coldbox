@@ -83,8 +83,24 @@
                             <h6 class="mb-0 fw-bold">#prc.posts.full_name#</h6>
                             <small class="text-muted">Software Engineer - 1h ago</small>
                         </div>
-                        <div class="ms-auto">
-                            <button class="btn btn-sm text-muted"><i class="fa-solid fa-ellipsis"></i></button>
+                       <div class="ms-auto dropdown dropstart">
+                            <button class="btn btn-sm text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="dropdown-item"
+                                        onclick="openEditModal(#prc.posts.post_id#, '#encodeForJavaScript(prc.posts.content)#', '#prc.posts.media_url#')">
+                                        <i class="fa-solid fa-pen-to-square me-2 text-primary"></i> Edit Post
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" onclick="openDeleteModal(#post_id#)">
+                                        <i class="fa-solid fa-trash me-2 text-danger"></i> Delete
+                                    </button>
+                                </li>
+                            </ul>
+                            
                         </div>
                     </div>
     
@@ -101,14 +117,16 @@
                             <span id="likes_#prc.posts.post_id#">#prc.posts.total_likes#</span> Likes
                         </div>
                         <div>
-                            <span>18 Comments</span>|<span>7 Shares</span>
+                            <span>18 Comments</span> | <span>7 Shares</span>
                         </div>
                     </div>
     
                     <div class="card-footer border-0 d-flex justify-content-around">
-                       <button class="btn like-btn" data-post-id="#prc.posts.post_id#">
-                            <i class="fa-regular fa-thumbs-up me-1"></i> Like
-                        </button>
+                       
+                           <button class="btn like-btn #prc.posts.isLiked eq 1 ? 'text-primary' : ''#" data-post-id="#prc.posts.post_id#">
+                                <i class="fa-thumbs-up me-1 #prc.posts.isLiked eq 1 ? 'fa-solid' : 'fa-regular'# "></i> Like
+                            </button>
+                       
                         <button class="btn py-1 me-2" data-bs-toggle="collapse" data-bs-target="##collapseComments" aria-expanded="false" aria-controls="collapseComments">
                             <i class="fa-regular fa-comment me-1"></i> Comment
                         </button>
@@ -146,6 +164,38 @@
             </cfloop>
         </div>
     </cfif>
+
+    <div class="modal fade" id="editPostModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="editPostLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-0  bg-dark text-white">
+                    <h5 class="modal-title fw-semibold" id="editPostLabel"><i class="fa-solid fa-pen-to-square me-2"></i>Edit Post</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editPostForm" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" name="post_id" id="editPostId">
+
+                        <div class="mb-3">
+                            <textarea class="form-control border-2 rounded-3" id="editPostContent" name="content" rows="5" placeholder="Update your thoughts..." ></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Change Image (optional):</label>
+                            <input type="file" class="form-control" id="editMediaInput" name="media">
+                            <img id="editPostMediaPreview" class="img-fluid rounded-3 mt-3 d-none" alt="Preview">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4 rounded-pill">Update Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
 
     <script>
 
@@ -224,7 +274,52 @@
                 });
             });
 
+            $("##editMediaInput").on("change", function (e) {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("##editPostMediaPreview").attr("src", e.target.result).removeClass("d-none");
+                    };
+                    reader.readAsDataURL(file);
+                } else{
+                    $("##editPostMediaPreview").attr("src", "").addClass("d-none");
+                }
+            });
 
+            $("##editPostForm").on("submit", function (e) {
+                e.preventDefault();
+
+                const form = this;
+                const formData = new FormData(form);
+
+                const content = formData.get("content").trim();
+
+                if (!content) {
+                    Swal.fire("Oops!", "Post content cannot be empty.", "warning");
+                    return;
+                }
+
+                $.ajax({
+                    url: "#event.buildLink('posts.updatePost')#",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                    if (res.status === "success") {
+                        $("##editPostModal").modal("hide");
+                        // Optionally reload or update the specific post
+                        location.reload(); // or use AJAX to update UI dynamically
+                    } else {
+                        alert(res.message || "Something went wrong while updating.");
+                    }
+                    },
+                    error: function () {
+                    alert("Server error during update.");
+                    }
+                });
+            });
 
         });
 
@@ -239,6 +334,19 @@
                     $(`##${element_id}`).html(`${res.TOTAL_LIKES}`);
                 }
             });
+        }
+
+        function openEditModal(postId, content, mediaUrl) {
+            $("##editPostId").val(postId);
+            $("##editPostContent").val(content);
+
+            if (mediaUrl) {
+                $("##editPostMediaPreview").attr("src", mediaUrl).removeClass("d-none");
+            } else {
+                $("##editPostMediaPreview").addClass("d-none");
+            }
+
+            $("##editPostModal").modal("show");
         }
 
 

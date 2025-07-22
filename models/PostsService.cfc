@@ -56,7 +56,13 @@ component singleton {
 					posts.post_id, 
 					posts.content, 
 					posts.media_url, 
-					COUNT(post_likes.post_id) AS total_likes
+					COUNT(post_likes.post_id) AS total_likes,
+					(
+						SELECT COUNT(*) 
+						FROM post_likes 
+						WHERE post_likes.post_id = posts.post_id 
+						AND post_likes.profile_id = :logged_in_profile
+					) AS isLiked
 				FROM posts
 				INNER JOIN profiles ON posts.profile_id = profiles.profile_id
 				LEFT JOIN post_likes ON posts.post_id = post_likes.post_id
@@ -64,7 +70,8 @@ component singleton {
 				GROUP BY posts.post_id, profiles.profile_image, profiles.firstName, profiles.lastName, posts.content, posts.media_url
 				ORDER BY posts.created_at DESC',
             {
-				profile_id = { value="#profile_id#", cfsqltype="cf_sql_integer"}
+				profile_id = { value="#profile_id#", cfsqltype="cf_sql_integer"},
+				logged_in_profile = { value=structKeyExists(session, "user") && structKeyExists(session.user, "profile_id") ? session.user.profile_id : -1, cfsqltype="cf_sql_integer" }
         	});
 
 			return{
@@ -157,5 +164,6 @@ component singleton {
 		}
 	}
 
+	
 
 }
