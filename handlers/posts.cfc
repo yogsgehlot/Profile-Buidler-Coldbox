@@ -32,6 +32,12 @@ component extends="coldbox.system.EventHandler"{
 		return res;
 	}
 
+	function updatePost(event, rc, prc){
+		// writeDump(rc);abort;
+		res = postsService.updatePost(rc);
+		return res;
+	}
+
 
 }
 

@@ -164,6 +164,70 @@ component singleton {
 		}
 	}
 
+	function updatePost(rc){
+		try {
+			if (rc.isMediaChanged eq 1) {
+				var imagePath = "";
+				if (structKeyExists(rc, "media_url") && trim(rc.media_url).length()) {
+					
+					uploadedFile = fileUpload( expandPath("./uploads/posts"), "#rc.media_url#", "image/jpeg,image/pjpeg,image/png,image/svg", "MakeUnique" );
+					
+					if (not listFindNoCase("jpg,jpeg,png,svg,webP", uploadedFile.serverFileExt)) {
+						return {
+							status: "error", 
+							message: "The uploaded media file is not of type JPG/PNG/SVG."
+						}
+					}
+					imagePath = "/uploads/posts/" & uploadedFile.serverFile;
+										
+				}
+				previousImage_query_data = queryExecute('select media_url from posts where post_id=:post_id',
+				{
+					post_id = { value="#rc.post_id#", cfsqltype="cf_sql_integer" }
+				});
+				
+				if (previousImage_query_data.recordCount neq 0) {
+					previousImage = previousImage_query_data.media_url;
+					
+					if (!isNull(previousImage) && len(trim(previousImage))) {
+						fullPath = expandPath(previousImage);
+						
+						if (fileExists(fullPath)) {
+							fileDelete(fullPath);
+						}
+					}
+				}
+				
+				query_data = queryExecute('update posts set content=:content,media_url=:media_url where post_id=:post_id',
+				{
+					post_id = { value="#rc.post_id#", cfsqltype="cf_sql_integer"},
+					content = { value="#rc.content#", cfsqltype="cf_sql_longvarchar"},
+					media_url = { value=imagePath, cfsqltype="cf_sql_varchar"}
+				});
+
+			}else {
+				query_data = queryExecute('update posts set content=:content where post_id=:post_id',
+				{
+					post_id = { value="#rc.post_id#", cfsqltype="cf_sql_integer"},
+					content = { value="#rc.content#", cfsqltype="cf_sql_longvarchar"}
+				});
+
+				// writeDump(query_data);abort;
+			}
+
+			return{
+				status: "success",
+				message: "Post updated successfully"
+			}
+			
+		} catch (any error) {
+			return {
+				status: "error",
+				message: "server Error: #error#"
+			}
+		}
+	}
+
 	
 
 }

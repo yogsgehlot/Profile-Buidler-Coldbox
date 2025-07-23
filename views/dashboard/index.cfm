@@ -35,7 +35,7 @@
                 <div class="d-flex flex-column gap-5 ">
                     <div class=" d-flex justify-content-center  align-items-center ">
 
-                        <img src=#prc.data.profile_image#
+                        <img src="#prc.data.profile_image#"
                             class="img-fluid rounded-circle d-flex justify-center align-itmes-center d-none d-md-block mt-3"
                             alt="Profile Image" style="width: 90%; aspect-ratio: 1/1; object-fit: fill;">
 

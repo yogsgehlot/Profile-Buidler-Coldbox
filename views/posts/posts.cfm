@@ -78,7 +78,7 @@
             <cfloop query="prc.posts">
                 <div class="card shadow-sm rounded-4 mb-4 ">
                     <div class="card-header bg-white border-0 d-flex align-items-center rounded-4 pt-3">
-                        <img src="#prc.posts.profile_image#" class="rounded-circle me-3" width="48" height="48" alt="User">
+                        <img src="#prc.posts.profile_image#" class="rounded-circle me-3" width="48" height="48" alt="User" style="object-fit: fill">
                         <div>
                             <h6 class="mb-0 fw-bold">#prc.posts.full_name#</h6>
                             <small class="text-muted">Software Engineer - 1h ago</small>
@@ -181,15 +181,27 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Change Image (optional):</label>
-                            <input type="file" class="form-control" id="editMediaInput" name="media">
+                            
                             <img id="editPostMediaPreview" class="img-fluid rounded-3 mt-3 d-none" alt="Preview">
                         </div>
+                        <input type="hidden" name="isMediaChanged" value="0" id="editMediaChangedFlag">
+                        <div class=" mb-3 btn btn-sm btn-outline-secondary" name="">
+                                <input type="file" id="editMediaInput" name="media_url" accept="image/*" class="d-none">
+                                <label for="editMediaInput">
+                                    <i class="fa-solid fa-image me-1"></i> Media
+                                </label>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-outline-danger mb-3 d-none" id="removeEditMedia">
+                            <i class="fa-solid fa-xmark me-1"></i> Remove
+                        </button>
+                    
+                        
                     </div>
 
                     <div class="modal-footer border-0 pt-0">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary px-4 rounded-pill">Update Post</button>
+                        <button type="submit" class="btn btn-primary px-4">Update Post</button>
                     </div>
                 </form>
             </div>
@@ -280,11 +292,22 @@
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         $("##editPostMediaPreview").attr("src", e.target.result).removeClass("d-none");
+                        $("##removeEditMedia").removeClass("d-none");
+                        $('##editMediaChangedFlag').val(1);
+                        
                     };
                     reader.readAsDataURL(file);
                 } else{
                     $("##editPostMediaPreview").attr("src", "").addClass("d-none");
+                    
                 }
+            });
+
+            $("##removeEditMedia").on("click", function () {
+                $("##editMediaInput").val(""); 
+                $("##editPostMediaPreview").attr("src", "").addClass("d-none");
+                $(this).addClass("d-none");
+                $('##editMediaChangedFlag').val(1);
             });
 
             $("##editPostForm").on("submit", function (e) {
@@ -307,11 +330,13 @@
                     processData: false,
                     contentType: false,
                     success: function (res) {
-                    if (res.status === "success") {
+                    if (res.STATUS === "success") {
                         $("##editPostModal").modal("hide");
                         // Optionally reload or update the specific post
-                        location.reload(); // or use AJAX to update UI dynamically
+                         // location.reload(); // or use AJAX to update UI dynamically
                     } else {
+                        console.log(res);
+                        
                         alert(res.message || "Something went wrong while updating.");
                     }
                     },
@@ -342,6 +367,7 @@
 
             if (mediaUrl) {
                 $("##editPostMediaPreview").attr("src", mediaUrl).removeClass("d-none");
+                $("##removeEditMedia").removeClass("d-none");
             } else {
                 $("##editPostMediaPreview").addClass("d-none");
             }
