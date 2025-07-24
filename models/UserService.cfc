@@ -358,6 +358,22 @@ component singleton {
 										});				
 			}
 
+			profileImage_query_data = queryExecute('select profile_image from profiles where profile_id=:profile_id',
+				{
+					profile_id = { value="#rc.profile_id#", cfsqltype="cf_sql_integer" }
+				});
+
+				if (profileImage_query_data.recordCount > 0) {
+					proflieImage = profileImage_query_data.profile_image;
+
+					if (!isNull(proflieImage) && len(trim(proflieImage))) {
+						fullPath = expandPath(proflieImage);
+						if (fileExists(fullPath)) {
+							fileDelete(fullPath);
+						}
+					}
+				}
+
 			query_data = queryExecute('DELETE FROM profiles where profile_id=:profile_id',
             {
 				profile_id = { value="#rc.profile_id#", cfsqltype="cf_sql_integer"}

@@ -94,6 +94,8 @@
                 </div>
 
             </div>
+            
+            <cfinclude template="./changePassword.cfm">
 
             <div class="col-lg-9 col-md-8  d-flex flex-column gy-2 gap-2 pb-3 ">
                 <ul class="nav nav-pills justify-content-center px-2 pt-2 border-bottom bg-transparent" role="tablist">
@@ -122,7 +124,6 @@
                     <div class="tab-pane fade " id="proflie_content"
                         role="tabpanel" aria-labelledby="pill-tab-0">
                         <div class="d-flex flex-column gy-2 gap-2 px-md-5">
-                                <cfinclude template="./changePassword.cfm">
                                 <cfinclude template="./education.cfm">
                                 <cfinclude template="./experience.cfm">
                                 <cfinclude template="./projects.cfm">

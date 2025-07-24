@@ -38,6 +38,12 @@ component extends="coldbox.system.EventHandler"{
 		return res;
 	}
 
+	function deletePost(event, rc, prc){
+		// writeDump(rc);abort;
+		res = postsService.deletePost(rc);
+		return res;
+	}
+
 
 }
 

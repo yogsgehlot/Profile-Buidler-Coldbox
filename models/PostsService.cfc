@@ -228,6 +228,43 @@ component singleton {
 		}
 	}
 
+	function deletePost(rc){
+		try {
+
+			media_query_data = queryExecute('select media_url from posts where post_id=:post_id',
+				{
+					post_id = { value="#rc.post_id#", cfsqltype="cf_sql_integer" }
+				});
+
+				if (media_query_data.recordCount > 0) {
+					media = media_query_data.media_url;
+
+					if (!isNull(media) && len(trim(media))) {
+						fullPath = expandPath(media);
+						if (fileExists(fullPath)) {
+							fileDelete(fullPath);
+						}
+					}
+				}
+
+			query_data = queryExecute('DELETE FROM posts where post_id=:post_id',
+            {
+				post_id = { value="#rc.post_id#", cfsqltype="cf_sql_integer"}
+        	});
+
+			return{
+				status: "success",
+				data: query_data
+			}
+			
+		} catch (any error) {
+			return {
+				status: "error",
+				message: "server Error",
+				error: error
+			}
+		}
+	}
 	
 
 }

@@ -22,6 +22,7 @@ component extends="baseHandler" {
 
 	function profileView(event, rc, prc){
 		// writeDump(rc);abort;
+
 		res = service.getProfile(rc.profile_id);
 		if(res.status eq "error"){
 			prc.message = res.message;
@@ -88,8 +89,9 @@ component extends="baseHandler" {
 			
 			prc.FollowersCount = res.followersCount;
 		}
+		
 
-
+		rc.follower_id=session.user?.profile_id
 		res = service.isFollowing(rc);
 		if(res.status eq "error"){
 			prc.message = res.message;

@@ -40,22 +40,28 @@
                         <textarea class="form-control border-3 rounded-3" id="postContent" rows="4" name="content"
                             placeholder="What do you want to talk about?"></textarea>
                     </div>
-                    <div class="mb-3">
-                        <div class="rounded-4 overflow-hidden mb-3 " style=" max-width: 60%;">
-                            <img src="" id="postMediaView" class="img-fluid d-none" style=" object-fit: fill">
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex gap-3">
+                    
 
+                    <div class="mb-3">
+                        <img id="postMediaView" class="img-fluid rounded-3 mt-3 d-none" alt="Preview" style=" max-width: 60%; object-fit: fill">
+                    </div>
+
+                    <input type="hidden" name="isMediaChanged" value="0" id="mediaChangedFlag">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
                             <div class="btn btn-sm btn-outline-secondary" name="">
                                 <input type="file" id="mediaInput" name="media_url" accept="image/*" class="d-none">
                                 <label for="mediaInput">
-                                    <i class="fa-solid fa-image me-1"></i> Add Photo
+                                    <i class="fa-solid fa-image me-1"></i> Media
                                 </label>
                             </div>
-
+                            
+                            <button type="button" class="btn btn-sm btn-outline-danger d-none" id="removeMedia">
+                                <i class="fa-solid fa-xmark me-1"></i> Remove
+                            </button>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary rounded-pill px-4">
                             <i class="fa-solid fa-paper-plane me-1"></i> Post
                         </button>
@@ -84,22 +90,25 @@
                             <small class="text-muted">Software Engineer - 1h ago</small>
                         </div>
                        <div class="ms-auto dropdown dropstart">
-                            <button class="btn btn-sm text-muted" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button class="dropdown-item"
+                            <cfif prc.data.profile_id eq session.user?.profile_id>
+                                <button class="btn btn-sm text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <button class="dropdown-item"
                                         onclick="openEditModal(#prc.posts.post_id#, '#encodeForJavaScript(prc.posts.content)#', '#prc.posts.media_url#')">
                                         <i class="fa-solid fa-pen-to-square me-2 text-primary"></i> Edit Post
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="dropdown-item" onclick="openDeleteModal(#post_id#)">
-                                        <i class="fa-solid fa-trash me-2 text-danger"></i> Delete
-                                    </button>
-                                </li>
-                            </ul>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" onclick="deletePost(#prc.posts.post_id#)">
+                                            <i class="fa-solid fa-trash me-2 text-danger"></i> Delete
+                                        </button>
+                                    </li>
+                                </ul>
+                            </cfif>
                             
                         </div>
                     </div>
@@ -222,11 +231,20 @@
                     reader.onload = function (e) {
                         $("##postMediaView").attr("src", e.target.result);
                         $("##postMediaView").removeClass("d-none");
+                        $("##removeMedia").removeClass("d-none");
+                        $("##mediaChangedFlag").val(1);
 
                     };
                     reader.readAsDataURL(file);
                 }
             })
+
+            $("##removeMedia").on("click", function () {
+                $("##mediaInput").val(""); 
+                $("##postMediaView").attr("src", "").addClass("d-none");
+                $(this).addClass("d-none");
+                $('##mediaChangedFlag').val(0);
+            });
 
             $('##addPostForm').on('submit', function (e) {
                 e.preventDefault();
@@ -249,11 +267,13 @@
                     processData: false,
                     success: function (res) {
                         if (res.STATUS === "success") {
-                            Swal.fire("Success", "Post added successfully!", "success");
-                            $("##postMediaView").attr("src", "");
-                            $("##postMediaView").addClass("d-none");
-                            $('##addPostForm')[0].reset();
+                            Swal.fire("Success", "Post added successfully!", "success").then(()=>{
 
+                                $("##postMediaView").attr("src", "");
+                                $("##postMediaView").addClass("d-none");
+                                $('##addPostForm')[0].reset();
+                                location.reload();
+                            });
 
                         } else {
                             Swal.fire("Error", res.MESSAGE || "Something went wrong.", "error");
@@ -330,18 +350,18 @@
                     processData: false,
                     contentType: false,
                     success: function (res) {
-                    if (res.STATUS === "success") {
-                        $("##editPostModal").modal("hide");
-                        // Optionally reload or update the specific post
-                         // location.reload(); // or use AJAX to update UI dynamically
-                    } else {
-                        console.log(res);
-                        
-                        alert(res.message || "Something went wrong while updating.");
-                    }
+                        if (res.STATUS === "success") {
+                            Swal.fire("Success", "Post updated successfully!", "success").then(()=>{
+                                    $("##editPostModal").modal("hide");
+                                    location.reload();
+                                });
+                            
+                        } else {
+                            Swal.fire("Error", res.MESSAGE || "Something went wrong.", "error");
+                        }
                     },
                     error: function () {
-                    alert("Server error during update.");
+                        Swal.fire("Error", "Server error while posting.", "error");
                     }
                 });
             });
@@ -373,6 +393,39 @@
             }
 
             $("##editPostModal").modal("show");
+        }
+
+        function deletePost(post_id){
+            Swal.fire({
+                title: "Delete this post?",
+                text: "This action will permanently remove your post and cannot be undone.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "##3085d6",
+                cancelButtonColor: "##d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "#event.buildLink('posts.deletePost')#",
+                        type: 'POST',
+                        data: { post_id: post_id},
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.STATUS === "success") {
+                                Swal.fire("Post Deleted Successful", "", "success").then(() => {
+                                    location.reload(); 
+                                });
+                            } else {
+                                Swal.fire("Post not deleted", data.error, "error");
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("Error", "Something went wrong", "error");
+                        }
+                    });
+                }
+            });
         }
 
 
