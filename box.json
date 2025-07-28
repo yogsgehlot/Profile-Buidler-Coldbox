@@ -26,12 +26,14 @@
         "coldbox":"coldbox/",
         "testbox":"testbox/",
         "cbmessagebox":"modules/cbmessagebox/",
-        "cbvalidation":"modules/cbvalidation/"
+        "cbvalidation":"modules/cbvalidation/",
+        "socketbox":"modules/socketbox/"
     },
     "dependencies":{
         "coldbox":"^7.0.0",
         "cbmessagebox":"^4.1.0+1",
-        "cbvalidation":"^4.5.0+27"
+        "cbvalidation":"^4.5.0+27",
+        "socketbox":"^1.2.3"
     },
     "scripts":{
         "postInstall":"pathExists .env || cp .env.example .env && package set ignore=[]",

@@ -226,6 +226,14 @@
 										</li>
 										
 										<li class="nav-item">
+											<a href="/chat" class="nav-link">
+												Message
+												<i class="fa-solid fa-comments fa-lg"></i>
+												
+											</a>
+										</li>
+
+										<li class="nav-item">
 											<button class="btn btn-outline-danger" id="logout">
 												Logout <i class="fa-solid fa-right-from-bracket ms-1"></i>
 											</button>

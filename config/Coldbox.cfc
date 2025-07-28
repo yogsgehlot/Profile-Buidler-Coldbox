@@ -139,7 +139,11 @@ component {
 		 * }
 		 */
 		moduleSettings = {
-			cbValidation ={}
+			cbValidation ={},
+			 socketbox: {
+				enable: true,
+				debug: false
+			}
 		};
 
 		/**
